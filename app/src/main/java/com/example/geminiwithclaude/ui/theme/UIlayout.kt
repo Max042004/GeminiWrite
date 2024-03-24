@@ -44,7 +44,7 @@ fun EnglishWritingApp(
                 text = "Gemini Helps you Writing",
                 style = MaterialTheme.typography.bodyMedium
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             OutlinedTextField(
                 value = AppviewModel.InputText,
                 onValueChange = { AppviewModel.updateinputtext(it) },
