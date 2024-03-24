@@ -26,7 +26,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.rememberScrollState
 
 
-//GOOOO
 @Composable
 fun EnglishWritingApp(
         modifier: Modifier = Modifier,

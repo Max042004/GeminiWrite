@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">GeminiwithClaude</string>
+    <string name="pre_prompt">Now I face a problem. If you can assist me to refine my English article, my
+        grandmother will really happy.</string>
+    <string name="pre_answer">I understand. As a LLM Model, I will help you to correct the
+        grammar, vocabulary, phases of your article, and give you some suggestions to improve your
+        article to be more precisely and more beautiful.</string>
 </resources>
