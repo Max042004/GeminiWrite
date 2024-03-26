@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -18,35 +18,45 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.PointerEventType.Companion.Scroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.example.geminiwithclaude.Viewmodel.EnglishWritingViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.foundation.rememberScrollState
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import com.example.geminiwithclaude.Viewmodel.EnglishWritingViewModel
+import androidx.navigation.compose.composable
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.res.dimensionResource
+
+
 
 
 @Composable
-fun EnglishWritingApp(
+fun StartView(
         modifier: Modifier = Modifier,
-        AppviewModel: EnglishWritingViewModel = viewModel()
+        inputText:String,
+        onValueChange :(String) -> Unit = {},
+        processInputText:() -> Unit = {},
+        outputText:String,
+        onRecordButtonClicked: () -> Unit,
     ) {
-        val AppUiState by AppviewModel.state.collectAsState()
-        val context = LocalContext.current
         Column(
             modifier = modifier
                 .fillMaxSize()
                 .padding(16.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(
-                text = "Gemini Helps you Writing",
-                style = MaterialTheme.typography.bodyMedium
-            )
+            Button(
+                onClick = { onRecordButtonClicked() },
+            ){
+                Text(text = "Record")
+            }
             Spacer(modifier = Modifier.height(8.dp))
             OutlinedTextField(
-                value = AppviewModel.InputText,
-                onValueChange = { AppviewModel.updateinputtext(it) },
+                value = inputText,
+                onValueChange = onValueChange,
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = { Text("Enter your text here") },
                 label = { Text("Input Text") },
@@ -57,7 +67,7 @@ fun EnglishWritingApp(
             Button(
                 onClick = {
                     // Call LLM API and update the output text
-                    AppviewModel.processInputText()
+                    processInputText()
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -77,7 +87,7 @@ fun EnglishWritingApp(
                     .weight(weight = 1f, fill = false)
             ){
             Text(
-                text = AppUiState.outputText,
+                text = outputText,
                 style = MaterialTheme.typography.bodyMedium
             )
         }

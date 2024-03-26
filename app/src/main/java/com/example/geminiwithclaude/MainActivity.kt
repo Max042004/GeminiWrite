@@ -24,7 +24,8 @@ import com.example.geminiwithclaude.ui.theme.GeminiwithClaudeTheme
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.geminiwithclaude.Viewmodel.EnglishWritingViewModel
-import com.example.geminiwithclaude.ui.theme.EnglishWritingApp
+import com.example.geminiwithclaude.ui.theme.GeminiWritingScreen
+import com.example.geminiwithclaude.ui.theme.StartView
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +37,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    EnglishWritingApp()
+                    GeminiWritingScreen()
+
                 }
             }
         }

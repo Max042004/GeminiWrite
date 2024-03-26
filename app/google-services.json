@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "436327763674",
+    "project_id": "geminiwritingwithclaude",
+    "storage_bucket": "geminiwritingwithclaude.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436327763674:android:710539034f867764c6dfe3",
+        "android_client_info": {
+          "package_name": "com.example.geminiwithclaude"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5_koa3YEh1GumLt2zAStS_08xs-PS7SQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
