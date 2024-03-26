@@ -36,17 +36,20 @@ fun GeminiWritingScreen(
                 modifier = Modifier
                 .fillMaxSize(),
                 inputText = appviewModel.InputText,
-                onValueChange = {appviewModel.updateinputtext(it)},
+                onValueChangeA = {appviewModel.updateinputtext(it)},
                 processInputText = {appviewModel.processInputText()},
                 outputText = uiState.outputText,
-                onRecordButtonClicked = {navController.navigate(Geminiwritingscreen.ArticleRecord.name)})
+                onRecordButtonClicked = {navController.navigate(Geminiwritingscreen.ArticleRecord.name)},
+                documentTitle = appviewModel.documenttitle,
+                onValueChangeD = {appviewModel.updatadocumenttitle(it)},
+                articlerecordfetch = {appviewModel.fetchArticleData()},
+            )
         }
         composable(route = Geminiwritingscreen.ArticleRecord.name) {
             val context = LocalContext.current
             ArticleWritingView(
                 modifier = Modifier,
                 onBacktoStartButtonClicked = {navController.navigate(Geminiwritingscreen.Start.name)},
-                articlerecordfetch = {appviewModel.fetchArticleData()} ,
                 articlerecordList = appviewModel.articleData.collectAsState(initial = emptyList()).value
             )
         }

@@ -19,8 +19,7 @@ import androidx.compose.foundation.lazy.items
 fun ArticleWritingView(
     modifier: Modifier = Modifier,
     onBacktoStartButtonClicked: () -> Unit,
-    articlerecordfetch:() -> Unit,
-    articlerecordList: List<EnglishWritingData>
+    articlerecordMap: MutableMap<String,List<EnglishWritingData>>
 ){
     Column {
         Text(
@@ -36,17 +35,29 @@ fun ArticleWritingView(
         Text(
             text = "Show the article"
         )
-        ArticleDataView(
+        /*ArticleDataView(
             modifier = modifier,
             articleDataList = articlerecordList
-        )
+        )*/
     }
-    // Call the fetchArticleData function to retrieve the data
-    articlerecordfetch()
-    }
-
+}
 
 @Composable
+fun ArticledocumentView(
+    modifier: Modifier = Modifier
+){
+    Column(modifier=Modifier) {
+        Button(
+            onClick =
+        ){
+            Text(text = "Document name")
+        }
+    }
+}
+
+
+
+/*@Composable
 fun ArticleDataView(
     modifier: Modifier = Modifier,
     articleDataList: List<EnglishWritingData>
@@ -84,5 +95,4 @@ fun ArticleDataView(
         }
     }
 }
-    }
-}
+    }*/

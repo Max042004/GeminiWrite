@@ -47,7 +47,13 @@ class EnglishWritingViewModel() : ViewModel() {
         InputText = inputext
     }
 
-    fun processInputText() {
+    var documenttitle by mutableStateOf("")
+        private set
+    fun updatadocumenttitle(document_title:String){
+        documenttitle = document_title
+    }
+    fun processInputText(
+    ) {
         viewModelScope.launch {
             val outputText = geminiApiClient.generateText(InputText) ?: ""
             updateOutputText(outputText)
@@ -56,12 +62,12 @@ class EnglishWritingViewModel() : ViewModel() {
 
             // Add the data to Firestore
             //已可成功上傳一組input output text到firebase
-            db.collection("englishWritingData")
-                .add(englishWritingData)
-                .addOnSuccessListener { documentReference ->
+            db.collection("englishWritingData").document(documenttitle)
+                .set(englishWritingData)
+                .addOnSuccessListener {documenttitle
                     Log.d(
                         ContentValues.TAG,
-                        "DocumentSnapshot added with ID: ${documentReference.id}"
+                        "DocumentSnapshot added with ID: $documenttitle"
                     )
                 }
                 .addOnFailureListener { exception ->
@@ -70,22 +76,27 @@ class EnglishWritingViewModel() : ViewModel() {
         }
     }
 
-    private val _articleData = MutableStateFlow<List<EnglishWritingData>>(emptyList())
-    val articleData: StateFlow<List<EnglishWritingData>> = _articleData
+    private val _articleData = MutableStateFlow<Map<String, MutableList<EnglishWritingData>>>(emptyMap())
+    val articleData: StateFlow<Map<String, MutableList<EnglishWritingData>>> = _articleData
 
     fun fetchArticleData() {
         viewModelScope.launch {
             db.collection("englishWritingData")
                 .get()
                 .addOnSuccessListener { documents ->
-                    val articleDataList = mutableListOf<EnglishWritingData>()
+                    val articleDataMap = mutableMapOf<String, MutableList<EnglishWritingData>>()
                     for (document in documents) {
                         val inputText = document.getString("inputText") ?: ""
                         val outputText = document.getString("outputText") ?: ""
                         val data = EnglishWritingData(inputText, outputText)
-                        articleDataList.add(data)
+                        val documentId = document.id
+                        if (articleDataMap.containsKey(documentId)) {
+                            articleDataMap[documentId]?.add(data)
+                        } else {
+                            articleDataMap[documentId] = mutableListOf(data)
+                        }
                     }
-                    _articleData.value = articleDataList}
+                    _articleData.value = articleDataMap}
                 .addOnFailureListener { exception ->
                     Log.d(TAG, "Error getting documents: ", exception)
                     // Handle any errors
