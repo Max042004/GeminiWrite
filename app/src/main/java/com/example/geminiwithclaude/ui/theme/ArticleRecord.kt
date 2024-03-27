@@ -14,13 +14,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import com.example.geminiwithclaude.Viewmodel.EnglishWritingViewModel.EnglishWritingData
 import kotlinx.coroutines.flow.StateFlow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 
 @Composable
 fun ArticleWritingView(
     modifier: Modifier = Modifier,
     onBacktoStartButtonClicked: () -> Unit,
-    ondocumentButtonClick:() -> Unit
-
+    ondocumentButtonClick:() -> Unit,
+    articleDataFlow:  StateFlow<Map<String,List<EnglishWritingData>>>
 ){
     Column {
         Text(
@@ -36,27 +38,18 @@ fun ArticleWritingView(
         Text(
             text = "Show the article"
         )
-        ArticleDocumentButton(
-            modifier = modifier,
-            onDocumentButtonClick = { ondocumentButtonClick() }
-
-        )
-    }
-}
-
-@Composable
-fun ArticleDocumentButton(
-    modifier: Modifier = Modifier,
-    onDocumentButtonClick:() -> Unit
-){
-    Column(modifier=Modifier) {
-        Button(
-            onClick = {onDocumentButtonClick()}
-        ){
-            Text(text = "The neighborhood")
+        Column(modifier=Modifier) {
+            val articleDataMap by articleDataFlow.collectAsState()
+            //val documentnamebutton1 = articleDataMap[document.id]
+            Button(
+                onClick = {ondocumentButtonClick()}
+            ){
+                Text(text = "The book I recently read")
+            }
         }
     }
 }
+
 
 
 

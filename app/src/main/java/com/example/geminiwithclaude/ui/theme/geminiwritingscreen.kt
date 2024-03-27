@@ -50,14 +50,14 @@ fun GeminiWritingScreen(
             ArticleWritingView(
                 modifier = Modifier,
                 onBacktoStartButtonClicked = {navController.navigate(Geminiwritingscreen.Start.name)},
-                ondocumentButtonClick = {navController.navigate(Geminiwritingscreen.ArticleDocument.name)}
-                //articlerecordList = appviewModel.articleData.collectAsState(initial = emptyList()).value
+                ondocumentButtonClick = {navController.navigate(Geminiwritingscreen.ArticleDocument.name)},
+                articleDataFlow = appviewModel.articleData
             )
         }
         composable(route = Geminiwritingscreen.ArticleDocument.name){
             ArticleDocumentScreen(
                 modifier = Modifier,
-                documentName = "The neighborhood",
+                documentName = "The book I recently read",
                 articleDataFlow = appviewModel.articleData
             )
         }

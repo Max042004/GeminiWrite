@@ -1,10 +1,5 @@
 package com.example.geminiwithclaude.Firebasefirestore
 
-import android.content.Context
-import androidx.startup.Initializer
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 /*class FirestoreInitializer : Initializer<FirebaseFirestore> {
 
         // The host '10.0.2.2' is a special IP address to let the

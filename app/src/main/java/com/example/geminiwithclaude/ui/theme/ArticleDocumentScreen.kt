@@ -1,5 +1,6 @@
 package com.example.geminiwithclaude.ui.theme
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +18,7 @@ import com.example.geminiwithclaude.Viewmodel.EnglishWritingViewModel.EnglishWri
 import kotlinx.coroutines.flow.StateFlow
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 
 @Composable
 fun ArticleDocumentScreen(
@@ -26,14 +28,23 @@ fun ArticleDocumentScreen(
     ){
     val articleDataMap by articleDataFlow.collectAsState()
     val articlesForDocument = articleDataMap[documentName] ?: emptyList()
-    LazyColumn(
-        modifier = modifier.fillMaxSize()
-    ) {
-        items(articlesForDocument) { article ->
-            ArticleItem(
-                inputText = article.inputText,
-                outputText = article.outputText
-            )
+    if (articlesForDocument.isNotEmpty()) {
+        LazyColumn(
+            modifier = modifier.fillMaxSize()
+        ) {
+            items(articlesForDocument) { article ->
+                ArticleItem(
+                    inputText = article.inputText,
+                    outputText = article.outputText
+                )
+            }
+        }
+    } else {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = "No articles found for the selected document")
         }
     }
 }
@@ -49,8 +60,7 @@ private fun ArticleItem(
             .padding(16.dp)
     ) {
         Text(
-            text = "Input Text:",
-            style = MaterialTheme.typography.bodyMedium
+            text = "Input Text:"
         )
         Text(
             text = inputText,

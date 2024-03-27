@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import com.google.ai.client.generativeai.type.content
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 import android.content.ContentValues.TAG
 import com.google.firebase.firestore.ListenerRegistration
 
@@ -31,8 +31,7 @@ class EnglishWritingViewModel() : ViewModel() {
         val inputText: String = "",
         val outputText: String = ""
     )
-    private val geminiApiClient =
-        GeminiApiClient(com.example.geminiwithclaude.BuildConfig.GEMINI_API_KEY)
+    private val geminiApiClient = GeminiApiClient(com.example.geminiwithclaude.BuildConfig.GEMINI_API_KEY)
     var InputText by mutableStateOf("")
         private set
 
@@ -78,7 +77,7 @@ class EnglishWritingViewModel() : ViewModel() {
             db.collection("englishWritingData")
                 .addSnapshotListener { snapshot, e ->
                     if (e != null) {
-                        Log.d(TAG, "Error getting documents: ", e)
+                        Log.d(ContentValues.TAG, "Error getting documents: ", e)
                         return@addSnapshotListener
                     }
 
@@ -88,6 +87,7 @@ class EnglishWritingViewModel() : ViewModel() {
                         val outputText = document.getString("outputText") ?: ""
                         val data = EnglishWritingData(inputText, outputText)
                         val documentId = document.id
+                        Log.d(ContentValues.TAG, "fetching data ")
                         if (articleDataMap.containsKey(documentId)) {
                             articleDataMap[documentId]?.add(data)
                         } else {
@@ -102,7 +102,7 @@ class EnglishWritingViewModel() : ViewModel() {
         registrationTokens = listOf(db.collection("englishWritingData")
             .addSnapshotListener { snapshot, e ->
                 if (e != null) {
-                    Log.d(TAG, "Error getting documents: ", e)
+                    Log.d(ContentValues.TAG, "Error getting documents: ", e)
                     return@addSnapshotListener
                 }
 

@@ -1,3 +1,9 @@
+import com.android.build.api.dsl.Packaging
+import org.gradle.api.internal.artifacts.configurations.Configurations
+import org.gradle.internal.impldep.org.junit.experimental.categories.Categories
+import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.exclude
+import org.jetbrains.kotlin.ir.linkage.partial.PartialLinkageUtils.File.MissingDeclarations.module
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -21,6 +27,13 @@ android {
             useSupportLibrary = true
         }
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.2"
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 
     buildTypes {
         release {
@@ -42,6 +55,15 @@ android {
         compose = true
         buildConfig = true
 
+    }
+
+    //Because there have two dependencies, which the module have the same classes, this make 編譯器couldn't successfully
+    //run, so you should exclude one of the module to make the duplicate classes disappear
+    //why using syntex of "all". Because I can't find where the dependencies including protobuf-java is.
+    configurations {
+        all {
+            exclude(group = "com.google.protobuf", module = "protobuf-java")
+        }
     }
 }
 
@@ -75,19 +97,26 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
 
-    //implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 
     implementation("com.google.ai.client.generativeai:generativeai:0.2.2")
-    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
-    //implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-firestore"){
-        exclude( group = "com.google.protobuf", module = "protobuf-java")
+    implementation (platform("com.google.firebase:firebase-bom:32.8.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    /*implementation("com.google.firebase:firebase-firestore:21.5.0"){
+        exclude( group = "com.google.firebase",module = "com.google.firebase:protolite-well-known-types:18.0.0")
+        exclude(group = "com.google.protobuf",module = "protobuf-javalite:3.22.3")
+        exclude(group = "com.google.protobuf:protobuf-java:3.22.3")
+    }*/
+    implementation("com.google.firebase:firebase-firestore-ktx:24.11.0"){
+        exclude(group = "com.google.firebase",module = "com.google.protolite-well-known-types:18.0.0")
+        exclude(group = "com.google.protobuf",module = "protobuf-javalite:3.22.3")
+        exclude(group = "com.google.protobuf:protobuf-java:3.22.3")
     }
-    //implementation("com.google.firebase:firebase-firestore-ktx")
+    //implementation("com.google.protobuf:protobuf-javalite:3.22.3")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
-    //implementation("com.firebaseui:firebase-ui-auth:8.0.2")
+    implementation("com.firebaseui:firebase-ui-auth:8.0.2")
     implementation("androidx.startup:startup-runtime:1.1.1")
 }
