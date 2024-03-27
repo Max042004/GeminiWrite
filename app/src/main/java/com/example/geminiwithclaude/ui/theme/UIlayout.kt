@@ -43,8 +43,7 @@ fun StartView(
         outputText:String,
         onRecordButtonClicked: () -> Unit,
         documentTitle:String,
-        onValueChangeD:(String)-> Unit = {},
-        articlerecordfetch:() -> Unit
+        onValueChangeD:(String)-> Unit = {}
     ) {
         Column(
             modifier = modifier
@@ -84,8 +83,6 @@ fun StartView(
                 onClick = {
                     // Call LLM API and update the output text
                     processInputText()
-                    // Call the fetchArticleData function to retrieve the data
-                    articlerecordfetch()
                 },
                 modifier = Modifier
                     .fillMaxWidth()

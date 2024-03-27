@@ -19,7 +19,8 @@ import androidx.compose.foundation.lazy.items
 fun ArticleWritingView(
     modifier: Modifier = Modifier,
     onBacktoStartButtonClicked: () -> Unit,
-    articlerecordMap: MutableMap<String,List<EnglishWritingData>>
+    ondocumentButtonClick:() -> Unit
+
 ){
     Column {
         Text(
@@ -35,22 +36,26 @@ fun ArticleWritingView(
         Text(
             text = "Show the article"
         )
-        /*ArticleDataView(
+        ArticleDocumentButton(
             modifier = modifier,
-            articleDataList = articlerecordList
-        )*/
+            onDocumentButtonClick = { ondocumentButtonClick() }
+
+        )
     }
 }
 
 @Composable
-fun ArticledocumentView(
-    modifier: Modifier = Modifier
+fun ArticleDocumentButton(
+    modifier: Modifier = Modifier,
+    onDocumentButtonClick:() -> Unit,
+
+
 ){
     Column(modifier=Modifier) {
         Button(
-            onClick =
+            onClick = {onDocumentButtonClick()}
         ){
-            Text(text = "Document name")
+            Text(text = "The neighborhood")
         }
     }
 }

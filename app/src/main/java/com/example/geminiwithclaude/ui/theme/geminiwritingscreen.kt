@@ -14,10 +14,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.geminiwithclaude.Viewmodel.EnglishWritingViewModel
+import com.example.geminiwithclaude.Viewmodel.EnglishWritingViewModel.EnglishWritingData
 
 enum class Geminiwritingscreen() {
     Start,
     ArticleRecord,
+    ArticleDocument
 }
 @Composable
 fun GeminiWritingScreen(
@@ -41,8 +43,7 @@ fun GeminiWritingScreen(
                 outputText = uiState.outputText,
                 onRecordButtonClicked = {navController.navigate(Geminiwritingscreen.ArticleRecord.name)},
                 documentTitle = appviewModel.documenttitle,
-                onValueChangeD = {appviewModel.updatadocumenttitle(it)},
-                articlerecordfetch = {appviewModel.fetchArticleData()},
+                onValueChangeD = {appviewModel.updatadocumenttitle(it)}
             )
         }
         composable(route = Geminiwritingscreen.ArticleRecord.name) {
@@ -50,7 +51,15 @@ fun GeminiWritingScreen(
             ArticleWritingView(
                 modifier = Modifier,
                 onBacktoStartButtonClicked = {navController.navigate(Geminiwritingscreen.Start.name)},
-                articlerecordList = appviewModel.articleData.collectAsState(initial = emptyList()).value
+                ondocumentButtonClick = {navController.navigate(Geminiwritingscreen.ArticleDocument.name)}
+                //articlerecordList = appviewModel.articleData.collectAsState(initial = emptyList()).value
+            )
+        }
+        composable(route = Geminiwritingscreen.ArticleDocument.name){
+            ArticleDocumentScreen(
+                modifier = Modifier,
+                documentName = "The neighborhood",
+                articleDataFlow = appviewModel.articleData
             )
         }
 

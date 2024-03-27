@@ -26,8 +26,14 @@ import androidx.compose.ui.unit.dp
 import com.example.geminiwithclaude.Viewmodel.EnglishWritingViewModel
 import com.example.geminiwithclaude.ui.theme.GeminiWritingScreen
 import com.example.geminiwithclaude.ui.theme.StartView
+import android.util.Log
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.activity.viewModels
 
 class MainActivity : ComponentActivity() {
+    private val viewModel: EnglishWritingViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -42,5 +48,35 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        viewModel.fetchAndListenForArticleData()
+        viewModel.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.stopListening()
+        Log.d("Activity", "onStop called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("Activity", "onPause called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("Activity", "onDestroy called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("Activity", "onResume called")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("Activity", "onRestart called")
     }
 }
+
+
