@@ -1,33 +1,21 @@
 package com.example.geminiwithclaude.Viewmodel
 
 import android.content.ContentValues
-import android.content.Context
 import android.util.Log
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.ai.client.generativeai.BuildConfig
 import com.google.ai.client.generativeai.GenerativeModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.lang.Thread.State
 import com.google.ai.client.generativeai.type.content
-import com.example.geminiwithclaude.R
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import androidx.navigation.compose.NavHost
 import android.content.ContentValues.TAG
-import androidx.privacysandbox.tools.core.model.Type
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firestore.v1.DocumentChange
 import com.google.firebase.firestore.ListenerRegistration
 
 

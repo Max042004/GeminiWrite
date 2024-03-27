@@ -47,9 +47,7 @@ fun ArticleWritingView(
 @Composable
 fun ArticleDocumentButton(
     modifier: Modifier = Modifier,
-    onDocumentButtonClick:() -> Unit,
-
-
+    onDocumentButtonClick:() -> Unit
 ){
     Column(modifier=Modifier) {
         Button(
