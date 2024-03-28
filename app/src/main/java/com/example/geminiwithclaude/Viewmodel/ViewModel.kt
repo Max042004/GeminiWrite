@@ -16,7 +16,10 @@ import com.google.ai.client.generativeai.type.content
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import android.content.ContentValues.TAG
+import androidx.compose.runtime.saveable.rememberSaveable
 import com.google.firebase.firestore.ListenerRegistration
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 
 
 class EnglishWritingViewModel() : ViewModel() {
@@ -68,8 +71,8 @@ class EnglishWritingViewModel() : ViewModel() {
         }
     }
 
-    private val _articleData = MutableStateFlow<Map<String, MutableList<EnglishWritingData>>>(emptyMap())
-    val articleData: StateFlow<Map<String, MutableList<EnglishWritingData>>> = _articleData
+    private val _articleData =MutableSharedFlow<Map<String, MutableList<EnglishWritingData>>>(1)
+    val articleData =_articleData.asSharedFlow()
     private lateinit var registrationTokens: List<ListenerRegistration>
 
     fun fetchAndListenForArticleData() {
@@ -94,9 +97,11 @@ class EnglishWritingViewModel() : ViewModel() {
                             articleDataMap[documentId] = mutableListOf(data)
                         }
                     }
-                    _articleData.value = articleDataMap
+                    viewModelScope.launch {
+                        _articleData.emit(articleDataMap)
                 }
         }
+    }
     }
     fun startListening() {
         registrationTokens = listOf(db.collection("englishWritingData")
@@ -106,7 +111,7 @@ class EnglishWritingViewModel() : ViewModel() {
                     return@addSnapshotListener
                 }
 
-                val articleDataMap = _articleData.value.toMutableMap()
+                val articleDataMap = mutableMapOf<String, MutableList<EnglishWritingData>>()
                 for (document in snapshot!!.documents) {
                     val inputText = document.getString("inputText") ?: ""
                     val outputText = document.getString("outputText") ?: ""
@@ -142,13 +147,48 @@ class EnglishWritingViewModel() : ViewModel() {
                         }
                     }
                 }
-                _articleData.value = articleDataMap
+                viewModelScope.launch {
+                    _articleData.emit(articleDataMap)
+                }
             })
     }
 
     fun stopListening() {
         registrationTokens.forEach { it.remove() }
     }
+
+    private fun updateOutputText(newText: String) {
+        _state.value = _state.value.copy(outputText = newText)
+    }
+
+    inner class GeminiApiClient(private val apiKey: String) {
+        private val generativeModel = GenerativeModel(
+            modelName = "gemini-pro",
+            apiKey = apiKey
+        )
+
+
+        suspend fun generateText(inputext: String): String? {
+            val chat = generativeModel.startChat(
+                history = listOf(
+                    content(role = "user") {
+                        text(
+                            "You can assist me to refine my English article, you will help me with the following three steps, and you have to separate these three parts to make your reply more organized:\n" +
+                                    "first, you have to correct the grammar, vocabulary, phases of my article to be more precisely and more beautiful\n " +
+                                    "second, you have to give me some suggestions to improve my article structure to more concisely convey the argument\n" +
+                                    "third, you have to pick up modified part you have done to explain to me what part you have modified\n" +
+                                    "forth, you have to write a more better article as a model for me to learn\n" +
+                                    "If you finish all these three steps , my grandmother be will really happy."
+                        )
+                    },
+                    content(role = "model") { text("Sure, I understand all the requirement you provided.") }
+                )
+            )
+            val response = chat.sendMessage(inputext)
+            return response.text
+        }
+    }
+}
 
 
     /*fun fetchArticleData() {
@@ -239,38 +279,6 @@ class EnglishWritingViewModel() : ViewModel() {
             }
     }*/
 
-    private fun updateOutputText(newText: String) {
-        _state.value = _state.value.copy(outputText = newText)
-    }
-
-    inner class GeminiApiClient(private val apiKey: String) {
-        private val generativeModel = GenerativeModel(
-            modelName = "gemini-pro",
-            apiKey = apiKey
-        )
-
-
-        suspend fun generateText(inputext: String): String? {
-            val chat = generativeModel.startChat(
-                history = listOf(
-                    content(role = "user") {
-                        text(
-                            "You can assist me to refine my English article, you will help me with the following three steps, and you have to separate these three parts to make your reply more organized:\n" +
-                                    "first, you have to correct the grammar, vocabulary, phases of my article to be more precisely and more beautiful\n " +
-                                    "second, you have to give me some suggestions to improve my article structure to more concisely convey the argument\n" +
-                                    "third, you have to pick up modified part you have done to explain to me what part you have modified\n" +
-                                    "forth, you have to write a more better article as a model for me to learn\n" +
-                                    "If you finish all these three steps , my grandmother be will really happy."
-                        )
-                    },
-                    content(role = "model") { text("Sure, I understand all the requirement you provided.") }
-                )
-            )
-            val response = chat.sendMessage(inputext)
-            return response.text
-        }
-    }
-}
 
     /*suspend fun generateText(prompt: String): String? {
         val response = generativeModel.generateContent(prompt)

@@ -14,6 +14,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.geminiwithclaude.Viewmodel.EnglishWritingViewModel
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 
 enum class Geminiwritingscreen() {
     Start,
@@ -50,18 +52,24 @@ fun GeminiWritingScreen(
             ArticleWritingView(
                 modifier = Modifier,
                 onBacktoStartButtonClicked = {navController.navigate(Geminiwritingscreen.Start.name)},
-                ondocumentButtonClick = {navController.navigate(Geminiwritingscreen.ArticleDocument.name)},
+                onDocumentButtonClick = {documentName ->
+                    navController.navigate("${Geminiwritingscreen.ArticleDocument.name}/$documentName")
+                },
                 articleDataFlow = appviewModel.articleData
             )
         }
-        composable(route = Geminiwritingscreen.ArticleDocument.name){
-            ArticleDocumentScreen(
-                modifier = Modifier,
-                documentName = "The book I recently read",
-                articleDataFlow = appviewModel.articleData
-            )
+        composable(route = "${Geminiwritingscreen.ArticleDocument.name}/{documentName}",
+            arguments = listOf(navArgument("documentName") { type= NavType.StringType })
+        ) { backStackEntry ->
+            val documentName = backStackEntry.arguments?.getString("documentName")
+            if (documentName != null) {
+                ArticleDocumentScreen(
+                    modifier = Modifier,
+                    documentName = documentName,
+                    articleDataFlow = appviewModel.articleData,
+                    onBacktoStartButtonClicked = {navController.navigate(Geminiwritingscreen.ArticleRecord.name)},
+                )
+            }
         }
-
-
-}
+    }
 }

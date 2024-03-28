@@ -1,7 +1,10 @@
 package com.example.geminiwithclaude.ui.theme
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,18 +19,35 @@ import kotlinx.coroutines.flow.StateFlow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import kotlinx.coroutines.flow.SharedFlow
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.LaunchedEffect
 
+@RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun ArticleWritingView(
     modifier: Modifier = Modifier,
     onBacktoStartButtonClicked: () -> Unit,
-    ondocumentButtonClick:() -> Unit,
-    articleDataFlow:  StateFlow<Map<String,List<EnglishWritingData>>>
+    onDocumentButtonClick:(String) -> Unit,
+    articleDataFlow:  SharedFlow<Map<String,List<EnglishWritingData>>>
 ){
+    val articleDataMap = remember { mutableStateMapOf<String, MutableList<EnglishWritingData>>() }
+    val documentNames = remember { mutableStateListOf<String>() }
+
+    LaunchedEffect(Unit) {
+        articleDataFlow.collect { newData ->
+            newData.forEach { (documentName, data) ->
+                articleDataMap.getOrPut(documentName) { mutableListOf() }.addAll(data)
+                if (!documentNames.contains(documentName)) {
+                    documentNames.add(documentName)
+                }
+            }
+        }
+    }
     Column {
-        Text(
-            text = "Success"
-        )
         Button(
             onClick={onBacktoStartButtonClicked()}
         ){
@@ -39,15 +59,18 @@ fun ArticleWritingView(
             text = "Show the article"
         )
         Column(modifier=Modifier) {
-            val articleDataMap by articleDataFlow.collectAsState()
-            //val documentnamebutton1 = articleDataMap[document.id]
+            documentNames.forEach { documentName ->
             Button(
-                onClick = {ondocumentButtonClick()}
-            ){
-                Text(text = "The book I recently read")
+                onClick = { onDocumentButtonClick(documentName) }, // Pass the document name to the callback
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            ) {
+                Text(text = documentName)
             }
         }
     }
+}
 }
 
 
