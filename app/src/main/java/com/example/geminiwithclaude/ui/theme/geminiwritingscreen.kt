@@ -1,6 +1,7 @@
 package com.example.geminiwithclaude.ui.theme
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -16,6 +17,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.geminiwithclaude.Viewmodel.EnglishWritingViewModel
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import android.util.Log
+import android.content.ContentValues.TAG
 
 enum class Geminiwritingscreen() {
     Start,
@@ -28,7 +31,7 @@ fun GeminiWritingScreen(
     appviewModel: EnglishWritingViewModel = viewModel(),
 ){
     val uiState by appviewModel.state.collectAsState()
-    val articleData by appviewModel.articleData.collectAsState(initial = null)
+    val articleData by appviewModel.articleData.collectAsState()
     val context = LocalContext.current
     NavHost(
         navController = navController,
@@ -48,15 +51,15 @@ fun GeminiWritingScreen(
             )
         }
         composable(route = Geminiwritingscreen.ArticleRecord.name) {
-            val context = LocalContext.current
+            Log.d(TAG,"record view called")
             ArticleWritingView(
-                modifier = Modifier,
                 onBacktoStartButtonClicked = {navController.navigate(Geminiwritingscreen.Start.name)},
+                articleDataFlow = appviewModel.articleData,
                 onDocumentButtonClick = {documentName ->
                     navController.navigate("${Geminiwritingscreen.ArticleDocument.name}/$documentName")
-                },
-                articleDataFlow = appviewModel.articleData
+                }
             )
+
         }
         composable(route = "${Geminiwritingscreen.ArticleDocument.name}/{documentName}",
             arguments = listOf(navArgument("documentName") { type= NavType.StringType })

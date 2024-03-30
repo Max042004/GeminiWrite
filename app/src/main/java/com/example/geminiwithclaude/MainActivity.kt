@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
             }
         }
         viewModel.fetchAndListenForArticleData()
-        viewModel.startListening()
+        //viewModel.startListening()
     }
 
     override fun onStop() {

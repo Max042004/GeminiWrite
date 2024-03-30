@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.SharedFlow
 fun ArticleDocumentScreen(
     modifier:Modifier = Modifier,
     documentName:String,
-    articleDataFlow:  SharedFlow<Map<String,List<EnglishWritingData>>>,
+    articleDataFlow:  StateFlow<Map<String,List<EnglishWritingData>>>,
     onBacktoStartButtonClicked:() -> Unit
     ){
     val articleDataMap by articleDataFlow.collectAsState(initial = emptyMap())

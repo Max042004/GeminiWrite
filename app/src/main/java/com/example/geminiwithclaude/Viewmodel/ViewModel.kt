@@ -20,6 +20,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import com.google.android.gms.tasks.Tasks
 
 
 class EnglishWritingViewModel() : ViewModel() {
@@ -28,6 +29,9 @@ class EnglishWritingViewModel() : ViewModel() {
     private val db = Firebase.firestore
     data class EnglishWritingState(
         val outputText: String = ""
+    )
+    data class EnglishWritingNameState(
+        val name: String= ""
     )
 
     data class EnglishWritingData(
@@ -71,11 +75,12 @@ class EnglishWritingViewModel() : ViewModel() {
         }
     }
 
-    private val _articleData =MutableSharedFlow<Map<String, MutableList<EnglishWritingData>>>(1)
-    val articleData =_articleData.asSharedFlow()
+    private val _articleData = MutableStateFlow<Map<String, MutableList<EnglishWritingData>>>(emptyMap())
+    val articleData: StateFlow<Map<String, MutableList<EnglishWritingData>>> = _articleData.asStateFlow()
+    private val _articleNames = MutableStateFlow<List<String>>(emptyList())
+    val articleNames = _articleNames.asStateFlow()
     private lateinit var registrationTokens: List<ListenerRegistration>
-
-    fun fetchAndListenForArticleData() {
+    fun fetchAndListenForArticleData(){
         viewModelScope.launch {
             db.collection("englishWritingData")
                 .addSnapshotListener { snapshot, e ->
@@ -83,8 +88,8 @@ class EnglishWritingViewModel() : ViewModel() {
                         Log.d(ContentValues.TAG, "Error getting documents: ", e)
                         return@addSnapshotListener
                     }
-
                     val articleDataMap = mutableMapOf<String, MutableList<EnglishWritingData>>()
+                    val articleDataNames = mutableListOf<String>()
                     for (document in snapshot!!.documents) {
                         val inputText = document.getString("inputText") ?: ""
                         val outputText = document.getString("outputText") ?: ""
@@ -95,11 +100,20 @@ class EnglishWritingViewModel() : ViewModel() {
                             articleDataMap[documentId]?.add(data)
                         } else {
                             articleDataMap[documentId] = mutableListOf(data)
+                            articleDataNames.add(documentId)
                         }
                     }
                     viewModelScope.launch {
                         _articleData.emit(articleDataMap)
+                        Log.d(TAG,"Emitting")
                 }
+                    if(articleData.value.isEmpty()){
+                        Log.d(TAG,"empty map")
+                    }
+                    else{
+                        Log.d(TAG,"contain data")
+                        Log.d(TAG,articleData.value.keys.toString())
+                    }
         }
     }
     }
@@ -149,13 +163,16 @@ class EnglishWritingViewModel() : ViewModel() {
                 }
                 viewModelScope.launch {
                     _articleData.emit(articleDataMap)
+                    Log.d(ContentValues.TAG, "fetching new data")
                 }
+
             })
     }
 
     fun stopListening() {
         registrationTokens.forEach { it.remove() }
     }
+
 
     private fun updateOutputText(newText: String) {
         _state.value = _state.value.copy(outputText = newText)
@@ -190,99 +207,4 @@ class EnglishWritingViewModel() : ViewModel() {
     }
 }
 
-
-    /*fun fetchArticleData() {
-        viewModelScope.launch {
-            db.collection("englishWritingData")
-                .get()
-                .addOnSuccessListener { documents ->
-                    val articleDataMap = mutableMapOf<String, MutableList<EnglishWritingData>>()
-                    for (document in documents) {
-                        val inputText = document.getString("inputText") ?: ""
-                        val outputText = document.getString("outputText") ?: ""
-                        val data = EnglishWritingData(inputText, outputText)
-                        val documentId = document.id
-                        if (articleDataMap.containsKey(documentId)) {
-                            articleDataMap[documentId]?.add(data)
-                        } else {
-                            articleDataMap[documentId] = mutableListOf(data)
-                        }
-                    }
-                    _articleData.value = articleDataMap}
-                .addOnFailureListener { exception ->
-                    Log.d(TAG, "Error getting documents: ", exception)
-                    // Handle any errors
-                }
-        }
-    }*/
-    /*update firestore data change
-    fun onEvent(documentSnapshots: QuerySnapshot?, e: FirebaseFirestoreException?) {
-
-        // Handle errors
-        if (e != null) {
-            Log.w(TAG, "onEvent:error", e)
-            return
-        }
-
-        // Dispatch the event
-        if (documentSnapshots != null) {
-            for (change in documentSnapshots.documentChanges) {
-                // snapshot of the changed document
-                when (change.type) {
-                    DocumentChange.Type.ADDED -> {
-                        // TODO: handle document added
-                    }
-                    DocumentChange.Type.MODIFIED -> {
-                        // TODO: handle document changed
-                    }
-                    DocumentChange.Type.REMOVED -> {
-                        // TODO: handle document removed
-                    }
-                }
-            }
-        }
-        onDataChanged()
-    }
-    private fun onDocumentAdded(change: DocumentChange) {
-        val articleDataMap = mutableMapOf<String, MutableList<EnglishWritingData>>()
-        snapshots.add(change., change.document)
-        notifyItemInserted(change.newIndex)
-    }
-
-    private fun onDocumentModified(change: DocumentChange) {
-        if (change.oldIndex == change.newIndex) {
-            // Item changed but remained in same position
-            snapshots[change.oldIndex] = change.document
-            notifyItemChanged(change.oldIndex)
-        } else {
-            // Item changed and changed position
-            snapshots.removeAt(change.oldIndex)
-            snapshots.add(change.newIndex, change.document)
-            notifyItemMoved(change.oldIndex, change.newIndex)
-        }
-    }
-
-    private fun onDocumentRemoved(change: DocumentChange) {
-        snapshots.removeAt(change.oldIndex)
-        notifyItemRemoved(change.oldIndex)
-    }*/
-    /*fun getarticledata(){
-        db.collection("englishWritingData")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    Log.d(TAG, "${document.id} => ${document.data}")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "Error getting documents: ", exception)
-            }
-    }*/
-
-
-    /*suspend fun generateText(prompt: String): String? {
-        val response = generativeModel.generateContent(prompt)
-        return response.text
-    }
-    }*/
 
