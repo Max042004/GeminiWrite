@@ -21,6 +21,7 @@ import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import com.google.android.gms.tasks.Tasks
+import kotlinx.coroutines.tasks.await
 
 
 class EnglishWritingViewModel() : ViewModel() {
@@ -171,6 +172,33 @@ class EnglishWritingViewModel() : ViewModel() {
 
     fun stopListening() {
         registrationTokens.forEach { it.remove() }
+    }
+
+    fun deleteDocuments(documentsToDelete: List<String>) {
+        viewModelScope.launch {
+            if (documentsToDelete.isNotEmpty()){
+                Log.d(TAG,"Contain want deleted data : ${documentsToDelete[0]}")
+            }
+            else{
+                Log.d(TAG,"not contain want deleted data")
+            }
+            try {
+                db.runBatch { batch ->
+                    documentsToDelete.forEach { documentId ->
+                        val documentRef = db.collection("englishWritingData").document(documentId)
+                        batch.delete(documentRef)
+                    }
+                }.await()
+                // 成功刪除
+                Log.d(TAG, "Documents deleted successfully: $documentsToDelete")
+            } catch (e: Exception) {
+                // 處理錯誤
+                Log.e(TAG, "Error deleting documents: $documentsToDelete", e)
+            }
+        }
+    }
+    companion object {
+        private const val TAG = "EnglishWritingViewModel"
     }
 
 

@@ -57,7 +57,9 @@ fun GeminiWritingScreen(
                 articleDataFlow = appviewModel.articleData,
                 onDocumentButtonClick = {documentName ->
                     navController.navigate("${Geminiwritingscreen.ArticleDocument.name}/$documentName")
-                }
+                },
+                onDeleteButtonClicked = {selectedDocuments ->
+                    appviewModel.deleteDocuments(selectedDocuments)}
             )
 
         }

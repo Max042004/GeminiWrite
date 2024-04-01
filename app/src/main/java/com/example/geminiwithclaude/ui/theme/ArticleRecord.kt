@@ -14,6 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import android.content.ContentValues.TAG
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import com.example.geminiwithclaude.Viewmodel.EnglishWritingViewModel.EnglishWritingData
@@ -23,15 +25,21 @@ import kotlinx.coroutines.flow.StateFlow
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.items
-
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Checkbox
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.ui.Alignment
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 
 
 @Composable
 fun ArticleWritingView(
     onBacktoStartButtonClicked: () -> Unit,
     onDocumentButtonClick:(String) -> Unit,
+    onDeleteButtonClicked: (List<String>) -> Unit,
     articleDataFlow:  StateFlow<Map<String,List<EnglishWritingData>>>,
-    //recordviewmodel :EnglishWritingViewModel = viewModel()
 ){
     val articleDataMap by articleDataFlow.collectAsState(initial = emptyMap())
     if(articleDataMap.isEmpty()){
@@ -45,13 +53,30 @@ fun ArticleWritingView(
     else{
         Log.d(TAG,"empty list")
     }
+    val showDeleteDialog = remember { mutableStateOf(false) }
+    val selectedDocuments = remember { mutableStateListOf<String>() }
+
+    if (showDeleteDialog.value) {
+        DeleteDocumentDialog(
+            documents = articleDataNames,
+            selectedDocuments = selectedDocuments,
+            onDismissRequest = { showDeleteDialog.value = false },
+            onDeleteConfirmed = { onDeleteButtonClicked(selectedDocuments)}
+        )
+    }
+
     Column(modifier = Modifier) {
-        Button(
+        Row(modifier = Modifier.fillMaxWidth()){
+            Button(
             onClick={onBacktoStartButtonClicked()}
         ){
             Text(
                 text = "Back"
             )
+        }
+            Button(onClick = { showDeleteDialog.value = true}) {
+                Text(text = "Delete Documents")
+            }
         }
             Log.d(TAG,"UI complete")
     Spacer(modifier = Modifier.height(8.dp))
@@ -78,5 +103,57 @@ fun ArticleWritingView(
         }
         Spacer(modifier = Modifier.height(8.dp))
     }
+}
+
+@Composable
+fun DeleteDocumentDialog(
+    documents: List<String>,
+    selectedDocuments: SnapshotStateList<String>,
+    onDismissRequest: () -> Unit,
+    onDeleteConfirmed: (List<String>) -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        title = { Text("Select Documents to Delete") },
+        text = {
+            Column {
+                documents.forEach { document ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                if (selectedDocuments.contains(document)) {
+                                    selectedDocuments.remove(document)
+                                } else {
+                                    selectedDocuments.add(document)
+                                }
+                            }
+                    ) {
+                        Checkbox(
+                            checked = selectedDocuments.contains(document),
+                            onCheckedChange = null
+                        )
+                        Text(text = document)
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+                    onDeleteConfirmed(selectedDocuments)
+                    onDismissRequest()
+                }
+            ) {
+                Text("Delete")
+            }
+        },
+        dismissButton = {
+            Button(onClick = onDismissRequest) {
+                Text("Cancel")
+            }
+        }
+    )
 }
 
