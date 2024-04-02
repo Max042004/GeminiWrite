@@ -106,18 +106,14 @@ dependencies {
     implementation("com.google.ai.client.generativeai:generativeai:0.2.2")
     implementation (platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.google.firebase:firebase-analytics")
-    /*implementation("com.google.firebase:firebase-firestore:21.5.0"){
-        exclude( group = "com.google.firebase",module = "com.google.firebase:protolite-well-known-types:18.0.0")
-        exclude(group = "com.google.protobuf",module = "protobuf-javalite:3.22.3")
-        exclude(group = "com.google.protobuf:protobuf-java:3.22.3")
-    }*/
     implementation("com.google.firebase:firebase-firestore-ktx:24.11.0"){
         exclude(group = "com.google.firebase",module = "com.google.protolite-well-known-types:18.0.0")
         exclude(group = "com.google.protobuf",module = "protobuf-javalite:3.22.3")
         exclude(group = "com.google.protobuf:protobuf-java:3.22.3")
     }
-    //implementation("com.google.protobuf:protobuf-javalite:3.22.3")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
     implementation("com.firebaseui:firebase-ui-auth:8.0.2")
     implementation("androidx.startup:startup-runtime:1.1.1")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
 }
