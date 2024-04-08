@@ -116,4 +116,6 @@ dependencies {
     implementation("androidx.startup:startup-runtime:1.1.1")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
+    implementation ("com.firebaseui:firebase-ui-auth:7.2.0")
+
 }

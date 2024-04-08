@@ -1,5 +1,6 @@
 package com.example.geminiwithclaude.Viewmodel
 
+import android.app.Activity.RESULT_OK
 import android.content.ContentValues
 import android.util.Log
 import androidx.compose.runtime.getValue
@@ -19,11 +20,14 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.compose.runtime.saveable.rememberSaveable
 import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.IdpResponse
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import com.google.android.gms.tasks.Tasks
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.tasks.await
@@ -238,83 +242,6 @@ class EnglishWritingViewModel() : ViewModel() {
             return response.text
         }
     }
-}
-
-class AuthViewModel : ViewModel() {
-    private val _authState = MutableStateFlow<AuthState>(AuthState.Unauthenticated)
-    val authState: StateFlow<AuthState> = _authState
-
-    private val auth = Firebase.auth
-
-    fun getSignInIntent(): Intent {
-        val providers = arrayListOf(
-            AuthUI.IdpConfig.GoogleBuilder().build()
-        )
-
-        return AuthUI.getInstance()
-            .createSignInIntentBuilder()
-            .setAvailableProviders(providers)
-            .setIsSmartLockEnabled(false)
-            .build()
-    }
-
-    fun handleSignInResult(data: Intent?) {
-        val response = IdpResponse.fromResultIntent(data)
-        if (response == null) {
-            _authState.value = AuthState.Unauthenticated
-            return
-        }
-
-        val user = auth.currentUser
-        if (user != null) {
-            _authState.value = AuthState.Authenticated
-            // Save user data to Firestore
-            saveUserDataToFirestore(user)
-        } else {
-            _authState.value = AuthState.Unauthenticated
-        }
-    }
-
-    private fun saveUserDataToFirestore(user: FirebaseUser) {
-        val userRef = Firebase.firestore.collection("users").document(user.uid)
-        userRef.set(
-            hashMapOf(
-                "email" to user.email,
-                "displayName" to user.displayName
-            )
-        )
-    }
-    fun getUserData(onUserDataLoaded: (UserData?) -> Unit) {
-        val currentUser = auth.currentUser ?: return
-
-        val userRef = Firebase.firestore.collection("users").document(currentUser.uid)
-        userRef.get()
-            .addOnSuccessListener { document ->
-                if (document.exists()) {
-                    val email = document.getString("email")
-                    val displayName = document.getString("displayName")
-                    val userData = UserData(email, displayName)
-                    onUserDataLoaded(userData)
-                } else {
-                    onUserDataLoaded(null)
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.e("AuthViewModel", "Error getting user data", exception)
-                onUserDataLoaded(null)
-            }
-    }
-
-    data class UserData(
-        val email: String?,
-        val displayName: String?
-    )
-}
-
-sealed class AuthState {
-    object Authenticated : AuthState()
-    object Unauthenticated : AuthState()
-    object Loading : AuthState()
 }
 
 

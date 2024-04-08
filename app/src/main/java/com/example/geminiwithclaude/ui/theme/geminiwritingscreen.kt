@@ -21,7 +21,8 @@ import android.util.Log
 import android.content.ContentValues.TAG
 
 enum class Geminiwritingscreen() {
-    Start,
+                                 SignIn,
+                                 Home,
     ArticleRecord,
     ArticleDocument
 }
@@ -35,9 +36,12 @@ fun GeminiWritingScreen(
     val context = LocalContext.current
     NavHost(
         navController = navController,
-        startDestination = Geminiwritingscreen.Start.name,
+        startDestination = Geminiwritingscreen.SignIn.name,
         modifier = Modifier.padding(all = 8.dp)){
-        composable(route = Geminiwritingscreen.Start.name){
+        composable(route = Geminiwritingscreen.SignIn.name){
+
+        }
+        composable(route = Geminiwritingscreen.Home.name){
             StartView(
                 modifier = Modifier
                 .fillMaxSize(),
@@ -53,7 +57,7 @@ fun GeminiWritingScreen(
         composable(route = Geminiwritingscreen.ArticleRecord.name) {
             Log.d(TAG,"record view called")
             ArticleWritingView(
-                onBacktoStartButtonClicked = {navController.navigate(Geminiwritingscreen.Start.name)},
+                onBacktoStartButtonClicked = {navController.navigate(Geminiwritingscreen.Home.name)},
                 articleDataFlow = appviewModel.articleData,
                 onDocumentButtonClick = {documentName ->
                     navController.navigate("${Geminiwritingscreen.ArticleDocument.name}/$documentName")
