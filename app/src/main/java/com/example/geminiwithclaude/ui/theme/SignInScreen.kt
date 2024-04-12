@@ -1,118 +1,144 @@
 package com.example.geminiwithclaude.ui.theme
 
-import android.app.Activity
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.geminiwithclaude.Viewmodel.AuthState
-import com.example.geminiwithclaude.Viewmodel.AuthViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.geminiwithclaude.R
-import com.google.android.gms.common.SignInButton
-import java.lang.reflect.Modifier
+import com.example.geminiwithclaude.Viewmodel.SignInViewModel
+import com.notes.app.ui.theme.NotesTheme
+import com.notes.app.ui.theme.Purple40
 
-/*@Composable
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
 fun SignInScreen(
-    viewModel: AuthViewModel = viewModel(),
-    navigateToHomeScreen: () -> Unit
+    openAndPopUp: (String, String) -> Unit
+    viewModel: SignInViewModel = hiltViewModel()
 ) {
-    val signInRequestCode = 1
+    val email = viewModel.email.collectAsState()
+    val password = viewModel.password.collectAsState()
 
-    val authResultLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            viewModel.handleSignInResult(result.data)
-        }
-    }
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(id = R.mipmap.auth_image),
+            contentDescription = "Auth image",
+            modifier =Modifier.fillMaxWidth()
+                    padding(16.dp, 4.dp)
+        )
 
-    val authState by viewModel.authState.collectAsState()
+        Spacer(modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp))
 
-    when (authState) {
-        AuthState.Authenticated -> navigateToHomeScreen()
-        AuthState.Unauthenticated -> {
-            SignInButton (
-            onClick = {
-                val signInIntent = viewModel.getSignInIntent()
-                authResultLauncher.launch(signInIntent)
-            }
+        OutlinedTextField(
+            singleLine = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 4.dp)
+                .border(
+                    BorderStroke(width = 2.dp, color = Purple40),
+                    shape = RoundedCornerShape(50)
+                ),
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
+            ),
+            value = email.value,
+            onValueChange = { viewModel.updateEmail(it) },
+            placeholder = { Text(stringResource(R.string.email)) },
+            leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "Email") }
+        )
+
+        OutlinedTextField(
+            singleLine = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 4.dp)
+                .border(
+                    BorderStroke(width = 2.dp, color = Purple40),
+                    shape = RoundedCornerShape(50)
+                ),
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
+            ),
+            value = password.value,
+            onValueChange = { viewModel.updatePassword(it) },
+            placeholder = { Text(stringResource(R.string.password)) },
+            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "Email") },
+            visualTransformation = PasswordVisualTransformation()
+        )
+
+        Spacer(modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp))
+
+        Button(
+            onClick = { viewModel.onSignInClick(openAndPopUp) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.sign_in),
+                fontSize = 16.sp,
+                modifier = Modifier.padding(0.dp, 6.dp)
             )
         }
-        AuthState.Loading -> CircularProgressIndicator()
-    }
-}
 
-@Composable
-fun StartSignInScreen(
-    viewModel: AuthViewModel = viewModel(),
-    navigateToHomeScreen: () -> Unit
-) {
-    val authState by viewModel.authState.collectAsState()
+        Spacer(modifier = Modifier
+            .fillMaxWidth()
+            .padding(4.dp))
 
-    LaunchedEffect(authState) {
-        when (authState) {
-            AuthState.Authenticated -> navigateToHomeScreen()
-            AuthState.Unauthenticated -> {
-                // Do nothing, the SignInScreen will be displayed
-            }
-            AuthState.Loading -> {
-                // Show a loading indicator
-            }
+        TextButton(onClick = { viewModel.onSignUpClick(openAndPopUp) }) {
+            Text(text = stringResource(R.string.sign_up_description), fontSize = 16.sp)
         }
     }
-
-    SignInScreen(viewModel, navigateToHomeScreen)
 }
 
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun SignInButton(
-    text: String = "Sign In with Google",
-    loadingText: String = "Loading...",
-    isLoading: Boolean = false,
-    onClick: () -> Unit
-) {
-    val buttonColors = ButtonDefaults.buttonColors(
-        containerColor = Color.White,
-        contentColor = Color.Unspecified
-    )
-    val interactionSource = remember { MutableInteractionSource() }
-
-    Button(
-        onClick = onClick,
-        colors = buttonColors,
-        interactionSource = interactionSource,
-        contentPadding = PaddingValues(16.dp)
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.google__g__logo_svg),
-            contentDescription = "Google Logo",
-            tint = Color.Unspecified
-        )
-        Spacer(modifier = androidx.compose.ui.Modifier.width(8.dp))
-        Text(
-            text = if (isLoading) loadingText else text,
-            color = Color.Unspecified
-        )
+fun AuthPreview() {
+    NotesTheme {
+        SignInScreen({ _, _ -> })
     }
 }
-
-@Preview
-@Composable
-fun previewfun(){
-    SignInScreen(navigateToHomeScreen = {})
-}*/
