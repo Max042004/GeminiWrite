@@ -33,6 +33,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.geminiwithclaude.R
+import com.example.geminiwithclaude.ui.theme.GeminiwithClaudeTheme
 import com.example.geminiwithclaude.ui.theme.Purple40
 import com.notes.app.R
 import com.notes.app.ui.theme.NotesTheme
@@ -153,7 +155,7 @@ fun SignUpScreen(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun AuthPreview() {
-    NotesTheme {
+    GeminiwithClaudeTheme {
         SignUpScreen({ _, _ -> })
     }
 }

@@ -1,14 +1,14 @@
 package com.example.geminiwithclaude.ui.theme
 
-const val NOTES_LIST_SCREEN = "NotesListScreen"
-const val NOTE_SCREEN = "NoteScreen"
+const val WRITING_RECORD_SCREEN = "ArticleRecord"
+const val WRITING_SCREEN = "WritingScreen"
 const val SIGN_IN_SCREEN = "SignInScreen"
 const val SIGN_UP_SCREEN = "SignUpScreen"
 const val SPLASH_SCREEN = "SplashScreen"
 
-const val NOTE_ID = "noteId"
-const val NOTE_DEFAULT_ID = "-1"
-const val NOTE_ID_ARG = "?$NOTE_ID={$NOTE_ID}"
+const val WRITER_ID = "writerId"
+const val WRITER_DEFAULT_ID = "-1"
+const val WRITER_ID_ARG = "?$WRITER_ID={$WRITER_ID}"
 
 const val LOCALHOST = "10.0.2.2"
 const val AUTH_PORT = 9099

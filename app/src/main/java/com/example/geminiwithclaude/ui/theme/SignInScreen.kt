@@ -36,8 +36,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.geminiwithclaude.R
 import com.example.geminiwithclaude.Viewmodel.SignInViewModel
-import com.notes.app.ui.theme.NotesTheme
-import com.notes.app.ui.theme.Purple40
+import com.example.geminiwithclaude.ui.theme.GeminiwithClaudeTheme
+
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,7 +59,7 @@ fun SignInScreen(
         Image(
             painter = painterResource(id = R.mipmap.auth_image),
             contentDescription = "Auth image",
-            modifier =Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 4.dp)
         )
@@ -139,7 +139,7 @@ fun SignInScreen(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun AuthPreview() {
-    NotesTheme {
+    GeminiwithClaudeTheme {
         SignInScreen({ _, _ -> })
     }
 }

@@ -42,9 +42,9 @@ fun GeminiWritingScreen(
 
         }
         composable(route = Geminiwritingscreen.Home.name){
-            StartView(
+            WriterScreen(
                 modifier = Modifier
-                .fillMaxSize(),
+                    .fillMaxSize(),
                 inputText = appviewModel.InputText,
                 onValueChangeA = {appviewModel.updateinputtext(it)},
                 processInputText = {appviewModel.processInputText()},
