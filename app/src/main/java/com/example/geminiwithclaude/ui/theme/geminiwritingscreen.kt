@@ -1,7 +1,6 @@
 package com.example.geminiwithclaude.ui.theme
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -19,6 +18,9 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import android.util.Log
 import android.content.ContentValues.TAG
+import com.example.geminiwithclaude.Screen.ArticleDocumentScreen
+import com.example.geminiwithclaude.Screen.ArticleWritingView
+import com.example.geminiwithclaude.Screen.WriterScreen
 
 enum class Geminiwritingscreen() {
                                  SignIn,

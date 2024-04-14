@@ -1,4 +1,4 @@
-package com.example.geminiwithclaude.ui.theme
+package com.example.geminiwithclaude.Screen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,10 +19,7 @@ import com.example.geminiwithclaude.Viewmodel.EnglishWritingViewModel.EnglishWri
 import kotlinx.coroutines.flow.StateFlow
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import kotlinx.coroutines.flow.SharedFlow
 
 @Composable
 fun ArticleDocumentScreen(

@@ -23,6 +23,10 @@ import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.tasks.await
 
 
+//良好的viewmodel程式碼，是每一個UI畫面配一個viewmodel，並且在每一個UI程式碼中instantiate viewmodel，
+//因為每一個viewmodel都是配合相應的UI，所以不會有我先前寫的狀況，每一個UI畫面都instantiate 同樣的viewmodel一次
+//導致我做出把instantiate上提到navigate screen程式碼中
+//
 class EnglishWritingViewModel() : ViewModel() {
     private val _state = MutableStateFlow(EnglishWritingState())
     val state: StateFlow<EnglishWritingState> = _state.asStateFlow()

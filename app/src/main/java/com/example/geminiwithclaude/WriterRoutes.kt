@@ -1,4 +1,4 @@
-package com.example.geminiwithclaude.ui.theme
+package com.example.geminiwithclaude
 
 const val WRITING_RECORD_SCREEN = "ArticleRecord"
 const val WRITING_SCREEN = "WritingScreen"

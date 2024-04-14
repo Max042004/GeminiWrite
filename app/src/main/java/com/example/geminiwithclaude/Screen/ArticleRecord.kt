@@ -1,4 +1,4 @@
-package com.example.geminiwithclaude.ui.theme
+package com.example.geminiwithclaude.Screen
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
@@ -16,11 +16,7 @@ import androidx.compose.runtime.getValue
 import android.content.ContentValues.TAG
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import com.example.geminiwithclaude.Viewmodel.EnglishWritingViewModel.EnglishWritingData
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.geminiwithclaude.Viewmodel.EnglishWritingViewModel
 import kotlinx.coroutines.flow.StateFlow
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.layout.fillMaxSize

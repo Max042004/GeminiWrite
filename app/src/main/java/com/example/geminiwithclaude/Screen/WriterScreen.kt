@@ -1,4 +1,4 @@
-package com.example.geminiwithclaude.ui.theme
+package com.example.geminiwithclaude.Screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -17,22 +17,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.geminiwithclaude.Screen.SignUpScreen
-import com.example.geminiwithclaude.ui.theme.ArticleWritingView
+import com.example.geminiwithclaude.Screen.ArticleWritingView
 import com.example.geminiwithclaude.ui.theme.GeminiwithClaudeTheme
 import com.example.geminiwithclaude.ui.theme.Geminiwritingscreen
-import com.example.geminiwithclaude.ui.theme.SIGN_IN_SCREEN
-import com.example.geminiwithclaude.ui.theme.SIGN_UP_SCREEN
-import com.example.geminiwithclaude.ui.theme.SPLASH_SCREEN
-import com.example.geminiwithclaude.ui.theme.SignInScreen
-import com.example.geminiwithclaude.ui.theme.WRITER_DEFAULT_ID
-import com.example.geminiwithclaude.ui.theme.WRITER_ID
-import com.example.geminiwithclaude.ui.theme.WRITING_ID
-import com.example.geminiwithclaude.ui.theme.WRITING_RECORD_SCREEN
-import com.example.geminiwithclaude.ui.theme.WriterScreen
-import com.notes.app.screens.notes_list.NotesListScreen
-import com.notes.app.screens.sign_in.SignInScreen
-import com.notes.app.screens.sign_up.SignUpScreen
-import com.notes.app.screens.splash.SplashScreen
+import com.example.geminiwithclaude.Screen.SignInScreen
+import com.example.geminiwithclaude.Screen.WriterScreen
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)

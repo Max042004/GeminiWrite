@@ -1,4 +1,4 @@
-package com.example.geminiwithclaude.ui.theme
+package com.example.geminiwithclaude.Screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -35,8 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.geminiwithclaude.R
-import com.example.geminiwithclaude.Viewmodel.SignInViewModel
 import com.example.geminiwithclaude.ui.theme.GeminiwithClaudeTheme
+import com.example.geminiwithclaude.ui.theme.Purple40
 
 
 @Composable

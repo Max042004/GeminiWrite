@@ -3,7 +3,8 @@ package com.example.geminiwithclaude.Screen
 import com.example.geminiwithclaude.WriterAppViewModel
 import com.example.geminiwithclaude.model.Service.AccountService
 import com.example.geminiwithclaude.ui.theme.NOTES_LIST_SCREEN
-import com.example.geminiwithclaude.ui.theme.SIGN_UP_SCREEN
+import com.example.geminiwithclaude.SIGN_UP_SCREEN
+import com.example.geminiwithclaude.WRITING_RECORD_SCREEN
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
@@ -35,7 +36,7 @@ class SignUpViewModel @Inject constructor(
             }
 
             accountService.signUp(email.value, password.value)
-            openAndPopUp(NOTES_LIST_SCREEN, SIGN_UP_SCREEN)
+            openAndPopUp( WRITING_RECORD_SCREEN, SIGN_UP_SCREEN)
         }
     }
 }
