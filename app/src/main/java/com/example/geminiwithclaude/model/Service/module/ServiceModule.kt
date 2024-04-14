@@ -1,9 +1,9 @@
 package com.example.geminiwithclaude.model.Service.module
 
-import com.notes.app.model.service.AccountService
-import com.notes.app.model.service.StorageService
-import com.notes.app.model.service.impl.AccountServiceImpl
-import com.notes.app.model.service.impl.StorageServiceImpl
+import com.example.geminiwithclaude.model.Service.AccountService
+import com.example.geminiwithclaude.model.Service.StorageService
+import com.example.geminiwithclaude.model.impl.AccountServiceImpl
+import com.example.geminiwithclaude.model.impl.StorageServiceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

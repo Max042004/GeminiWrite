@@ -3,8 +3,8 @@ package com.example.geminiwithclaude.model.impl
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.Firebase
-import com.notes.app.model.User
-import com.notes.app.model.service.AccountService
+import com.example.geminiwithclaude.model.User
+import com.example.geminiwithclaude.model.Service.AccountService
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow

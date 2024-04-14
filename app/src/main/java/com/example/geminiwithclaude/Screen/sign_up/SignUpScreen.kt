@@ -1,4 +1,4 @@
-package com.example.geminiwithclaude.Screen
+package com.example.geminiwithclaude.Screen.sign_up
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -36,9 +36,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.geminiwithclaude.R
 import com.example.geminiwithclaude.ui.theme.GeminiwithClaudeTheme
 import com.example.geminiwithclaude.ui.theme.Purple40
-import com.notes.app.R
-import com.notes.app.ui.theme.NotesTheme
-import com.notes.app.ui.theme.Purple40
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,7 +57,7 @@ fun SignUpScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.mipmap.auth_image),
+            painter = painterResource(id = R.mipmap.auth_image),//之後找一個ICON
             contentDescription = "Auth image",
             modifier = modifier
                 .fillMaxWidth()

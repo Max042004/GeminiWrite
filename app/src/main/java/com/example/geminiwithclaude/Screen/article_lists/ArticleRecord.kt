@@ -1,4 +1,4 @@
-package com.example.geminiwithclaude.Screen
+package com.example.geminiwithclaude.Screen.article_lists
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column

@@ -1,12 +1,12 @@
 package com.example.geminiwithclaude.model.Service
 
-import com.notes.app.model.Note
+import com.example.geminiwithclaude.model.Writer
 import kotlinx.coroutines.flow.Flow
 
 interface StorageService {
-    val notes: Flow<List<Note>>
-    suspend fun createNote(note: Note)
-    suspend fun readNote(noteId: String): Note?
-    suspend fun updateNote(note: Note)
-    suspend fun deleteNote(noteId: String)
+    val Articles: Flow<List<Writer>>
+    suspend fun createArticle(article: Writer)
+    suspend fun readArticle(articleId: String): Writer?
+    suspend fun updateArticle(article: Writer)
+    suspend fun deleteArticle(articleId: String)
 }

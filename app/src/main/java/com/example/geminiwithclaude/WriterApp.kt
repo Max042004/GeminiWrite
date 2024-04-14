@@ -16,12 +16,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.geminiwithclaude.Screen.SignUpScreen
-import com.example.geminiwithclaude.Screen.ArticleWritingView
+import com.example.geminiwithclaude.Screen.sign_up.SignUpScreen
+import com.example.geminiwithclaude.Screen.article_lists.ArticleWritingView
 import com.example.geminiwithclaude.ui.theme.GeminiwithClaudeTheme
-import com.example.geminiwithclaude.ui.theme.Geminiwritingscreen
-import com.example.geminiwithclaude.Screen.SignInScreen
-import com.example.geminiwithclaude.Screen.WriterScreen
+import com.example.geminiwithclaude.Screen.sign_in.SignInScreen
+import com.example.geminiwithclaude.Screen.article_write.WriterScreen
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)

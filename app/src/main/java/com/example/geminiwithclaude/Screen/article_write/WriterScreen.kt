@@ -1,4 +1,4 @@
-package com.example.geminiwithclaude.Screen
+package com.example.geminiwithclaude.Screen.article_write
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -1,4 +1,4 @@
-package com.example.geminiwithclaude.Screen
+package com.example.geminiwithclaude.Screen.sign_in
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -57,7 +57,7 @@ fun SignInScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.mipmap.auth_image),
+            painter = painterResource(id = R.mipmap.auth_image),//之後用一個sign in 畫面的ICON
             contentDescription = "Auth image",
             modifier = Modifier
                 .fillMaxWidth()

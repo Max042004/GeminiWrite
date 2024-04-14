@@ -4,9 +4,9 @@ import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.Firebase
-import com.notes.app.model.Note
-import com.notes.app.model.service.AccountService
-import com.notes.app.model.service.StorageService
+import com.example.geminiwithclaude.model.Writer
+import com.example.geminiwithclaude.model.Service.AccountService
+import com.example.geminiwithclaude.model.Service.StorageService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -16,42 +16,42 @@ import javax.inject.Inject
 class StorageServiceImpl @Inject constructor(private val auth: AccountService) : StorageService {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override val notes: Flow<List<Note>>
+    override val Articles: Flow<List<Writer>>
         get() =
-            auth.currentUser.flatMapLatest { note ->
+            auth.currentUser.flatMapLatest { article ->
                 Firebase.firestore
-                    .collection(NOTES_COLLECTION)
-                    .whereEqualTo(USER_ID_FIELD, note?.id)
+                    .collection(ARTICLES_COLLECTION)
+                    .whereEqualTo(USER_ID_FIELD, article?.id)
                     .dataObjects()
             }
 
-    override suspend fun createNote(note: Note) {
-        val noteWithUserId = note.copy(userId = auth.currentUserId)
+    override suspend fun createArticle(article: Writer) {
+        val articleWithUserId = article.copy(userId = auth.currentUserId)
         Firebase.firestore
-            .collection(NOTES_COLLECTION)
-            .add(noteWithUserId).await()
+            .collection(ARTICLES_COLLECTION)
+            .add(articleWithUserId).await()
     }
 
-    override suspend fun readNote(noteId: String): Note? {
+    override suspend fun readArticle(articleId: String): Writer? {
         return Firebase.firestore
-            .collection(NOTES_COLLECTION)
-            .document(noteId).get().await().toObject()
+            .collection(ARTICLES_COLLECTION)
+            .document(articleId).get().await().toObject()
     }
 
-    override suspend fun updateNote(note: Note) {
+    override suspend fun updateArticle(article: Writer) {
         Firebase.firestore
-            .collection(NOTES_COLLECTION)
-            .document(note.id).set(note).await()
+            .collection(ARTICLES_COLLECTION)
+            .document(article.id).set(article).await()
     }
 
-    override suspend fun deleteNote(noteId: String) {
+    override suspend fun deleteArticle(articleId: String) {
         Firebase.firestore
-            .collection(NOTES_COLLECTION)
-            .document(noteId).delete().await()
+            .collection(ARTICLES_COLLECTION)
+            .document(articleId).delete().await()
     }
 
     companion object {
         private const val USER_ID_FIELD = "userId"
-        private const val NOTES_COLLECTION = "notes"
+        private const val ARTICLES_COLLECTION = "articles"
     }
 }
