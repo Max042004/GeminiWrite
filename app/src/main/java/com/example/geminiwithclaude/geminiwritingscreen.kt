@@ -47,13 +47,9 @@ fun GeminiWritingScreen(
             WriterScreen(
                 modifier = Modifier
                     .fillMaxSize(),
-                inputText = appviewModel.InputText,
-                onValueChangeA = {appviewModel.updateinputtext(it)},
-                processInputText = {appviewModel.processInputText()},
                 outputText = uiState.outputText,
                 onRecordButtonClicked = {navController.navigate(Geminiwritingscreen.ArticleRecord.name)},
-                documentTitle = appviewModel.documenttitle,
-                onValueChangeD = {appviewModel.updatadocumenttitle(it)}
+                //restartApp = { route -> appState.clearAndNavigate(route) }
             )
         }
         composable(route = Geminiwritingscreen.ArticleRecord.name) {

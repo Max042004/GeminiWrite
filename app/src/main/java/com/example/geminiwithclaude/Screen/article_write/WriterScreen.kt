@@ -18,20 +18,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.TextField
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.hilt.navigation.compose.hiltViewModel
 
 
 @Composable
 fun WriterScreen(
         modifier: Modifier = Modifier,
-        inputText:String,
-        onValueChangeA :(String) -> Unit = {},
-        processInputText:() -> Unit = {},
         outputText:String,
         onRecordButtonClicked: () -> Unit,
-        documentTitle:String,
-        onValueChangeD:(String)-> Unit = {}
+        //restartApp: (String) -> Unit,
+        viewModel: WriterScreenViewModel = hiltViewModel()
     ) {
-        Column(
+    val article = viewModel.writer.collectAsState()
+
+
+    //LaunchedEffect(Unit) { viewModel.initialize(restartApp) } 未來須用到再用
+
+
+    Column(
             modifier = modifier
                 .fillMaxSize()
                 .padding(16.dp),
@@ -45,8 +51,8 @@ fun WriterScreen(
             }
             Spacer(modifier = Modifier.height(2.dp))
             //documnet title
-            TextField(value = documentTitle,
-                onValueChange = onValueChangeD,
+            TextField(value = article.value.title,
+                onValueChange = {viewModel.updatadocumenttitle(it)},
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = { Text("Enter your text here") },
                 label = { Text("Article title") },
@@ -56,8 +62,8 @@ fun WriterScreen(
             Spacer(modifier = Modifier.height(2.dp))
             //type input article
             OutlinedTextField(
-                value = inputText,
-                onValueChange = onValueChangeA,
+                value = article.value.inputtext,
+                onValueChange = {viewModel.updateinputtext(it)},
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = { Text("Enter your article here") },
                 label = { Text("Article input") },
@@ -68,7 +74,7 @@ fun WriterScreen(
             Button(
                 onClick = {
                     // Call LLM API and update the output text
-                    processInputText()
+                    viewModel.processInputText()
                 },
                 modifier = Modifier
                     .fillMaxWidth()
