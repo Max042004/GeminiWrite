@@ -2,7 +2,6 @@ package com.example.geminiwithclaude.Screen.sign_up
 
 import com.example.geminiwithclaude.WriterAppViewModel
 import com.example.geminiwithclaude.model.Service.AccountService
-import com.example.geminiwithclaude.ui.theme.NOTES_LIST_SCREEN
 import com.example.geminiwithclaude.SIGN_UP_SCREEN
 import com.example.geminiwithclaude.WRITING_RECORD_SCREEN
 import dagger.hilt.android.lifecycle.HiltViewModel

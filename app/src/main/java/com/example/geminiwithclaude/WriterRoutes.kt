@@ -2,6 +2,7 @@ package com.example.geminiwithclaude
 
 const val WRITING_RECORD_SCREEN = "ArticleRecord"
 const val WRITING_SCREEN = "WritingScreen"
+const val WRITING_FULL_SCREEN = "ArticleFullScreen"
 const val SIGN_IN_SCREEN = "SignInScreen"
 const val SIGN_UP_SCREEN = "SignUpScreen"
 const val SPLASH_SCREEN = "SplashScreen"

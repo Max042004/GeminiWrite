@@ -42,7 +42,7 @@ import com.example.geminiwithclaude.ui.theme.Purple40
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun SignInScreen(
-    openAndPopUp: (String, String) -> Unit
+    openAndPopUp: (String, String) -> Unit,
     viewModel: SignInViewModel = hiltViewModel()
 ) {
     val email = viewModel.email.collectAsState()
@@ -57,7 +57,7 @@ fun SignInScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.mipmap.auth_image),//之後用一個sign in 畫面的ICON
+            painter = painterResource(id = R.drawable.auth_image),//之後用一個sign in 畫面的ICON
             contentDescription = "Auth image",
             modifier = Modifier
                 .fillMaxWidth()

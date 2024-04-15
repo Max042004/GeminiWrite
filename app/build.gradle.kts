@@ -101,8 +101,8 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-compiler:2.44")
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-compiler:2.51.1")
 
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
@@ -112,15 +112,12 @@ dependencies {
 
     implementation("com.google.ai.client.generativeai:generativeai:0.2.2")
     implementation (platform("com.google.firebase:firebase-bom:32.8.0"))
-    implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-firestore-ktx:24.11.0")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
     implementation("com.firebaseui:firebase-ui-auth:8.0.2")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("androidx.startup:startup-runtime:1.1.1")
     implementation("com.google.firebase:firebase-auth:22.3.1")
-    implementation("com.google.android.gms:play-services-auth:21.0.0")
     implementation ("com.firebaseui:firebase-ui-auth:7.2.0")
-    implementation ("com.google.firebase:firebase-core:16.0.6")
 
 }

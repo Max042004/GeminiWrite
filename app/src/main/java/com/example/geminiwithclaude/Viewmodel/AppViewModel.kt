@@ -27,7 +27,7 @@ import kotlinx.coroutines.tasks.await
 //因為每一個viewmodel都是配合相應的UI，所以不會有我先前寫的狀況，每一個UI畫面都instantiate 同樣的viewmodel一次
 //導致我做出把instantiate上提到navigate screen程式碼中
 //
-class EnglishWritingViewModel() : ViewModel() {
+/*class EnglishWritingViewModel() : ViewModel() {
 
 
     data class EnglishWritingState(
@@ -40,12 +40,12 @@ class EnglishWritingViewModel() : ViewModel() {
     data class EnglishWritingData(
         val inputText: String = "",
         val outputText: String = ""
-    )
+    )*/
 
 
 
 
-    private val _articleData = MutableStateFlow<Map<String, MutableList<EnglishWritingData>>>(emptyMap())
+    /*private val _articleData = MutableStateFlow<Map<String, MutableList<EnglishWritingData>>>(emptyMap())
     val articleData: StateFlow<Map<String, MutableList<EnglishWritingData>>> = _articleData.asStateFlow()
     private val _articleNames = MutableStateFlow<List<String>>(emptyList())
     val articleNames = _articleNames.asStateFlow()
@@ -197,6 +197,6 @@ class EnglishWritingViewModel() : ViewModel() {
             }
         }
     FirebaseAuth.getInstance().addAuthStateListener(authListener)
-}
+}*/
 
 

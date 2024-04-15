@@ -7,8 +7,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.example.geminiwithclaude.SPLASH_SCREEN
-import com.example.geminiwithclaude.Viewmodel.EnglishWritingViewModel
 import com.example.geminiwithclaude.WRITER_DEFAULT_ID
+import com.example.geminiwithclaude.WRITING_RECORD_SCREEN
 import com.example.geminiwithclaude.WriterAppViewModel
 import com.example.geminiwithclaude.model.Service.AccountService
 import com.example.geminiwithclaude.model.Service.StorageService
@@ -17,8 +17,6 @@ import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
-import com.notes.app.model.Note
-import com.notes.app.screens.NotesAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,8 +30,6 @@ class WriterScreenViewModel @Inject constructor(
     private val storageService: StorageService
 ) : WriterAppViewModel() {
     val writer = MutableStateFlow(DEFAULT_NOTE)
-    private val _state = MutableStateFlow(EnglishWritingViewModel.EnglishWritingState())
-    val state: StateFlow<EnglishWritingViewModel.EnglishWritingState> = _state.asStateFlow()
     private val geminiApiClient = GeminiApiClient(com.example.geminiwithclaude.BuildConfig.GEMINI_API_KEY)
     private val db = Firebase.firestore
 
@@ -48,7 +44,7 @@ class WriterScreenViewModel @Inject constructor(
     fun processInputText(
     ) {
         viewModelScope.launch {
-            writer.value = writer.value.copy(outputtext = geminiApiClient.generateText(InputText) ?: "")
+            writer.value = writer.value.copy(outputtext = geminiApiClient.generateText(writer.value.inputtext) ?: "")
             updateOutputText(writer.value.outputtext)
 
             // Add the data to Firestore
@@ -67,7 +63,7 @@ class WriterScreenViewModel @Inject constructor(
     }
 
     private fun updateOutputText(newText: String) {
-        _state.value = _state.value.copy(outputText = newText)
+        writer.value = writer.value.copy(outputtext = newText)
     }
 
     inner class GeminiApiClient(private val apiKey: String) {
@@ -98,16 +94,25 @@ class WriterScreenViewModel @Inject constructor(
         }
     }
 
-    /*fun initialize(restartApp: (String) -> Unit) {
-        observeAuthenticationState(restartApp = restartApp)
+    fun initialize(restartApp: (String) -> Unit) {
+        /*launchCatching {
+            writer.value = storageService.readArticle(articleId) ?: DEFAULT_NOTE
+        }*/
+        observeAuthenticationState(restartApp)
     }
+
     private fun observeAuthenticationState(restartApp: (String) -> Unit) {
         launchCatching {
             accountService.currentUser.collect { user ->
                 if (user == null) restartApp(SPLASH_SCREEN)
             }
         }
-    }*/ //未來需用到這個function再來用
+    }
+
+    fun onRecordClick(openScreen: (String) -> Unit) {
+        openScreen("$WRITING_RECORD_SCREEN")
+    }
+
 
     /*fun updateNote(newText: String) {
         note.value = note.value.copy(text = newText)

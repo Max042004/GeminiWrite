@@ -13,12 +13,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.geminiwithclaude.Viewmodel.EnglishWritingViewModel
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import android.util.Log
 import android.content.ContentValues.TAG
-import com.example.geminiwithclaude.Screen.article_full.ArticleDocumentScreen
+//import com.example.geminiwithclaude.Screen.article_full.ArticleDocumentScreen
 import com.example.geminiwithclaude.Screen.article_lists.ArticleWritingView
 import com.example.geminiwithclaude.Screen.article_write.WriterScreen
 
@@ -28,7 +27,7 @@ enum class Geminiwritingscreen() {
     ArticleRecord,
     ArticleDocument
 }
-@Composable
+/*@Composable
 fun GeminiWritingScreen(
     navController: NavHostController = rememberNavController(),
     appviewModel: EnglishWritingViewModel = viewModel(),
@@ -40,6 +39,7 @@ fun GeminiWritingScreen(
         navController = navController,
         startDestination = Geminiwritingscreen.SignIn.name,
         modifier = Modifier.padding(all = 8.dp)){
+        notesGraph()
         composable(route = Geminiwritingscreen.SignIn.name){
 
         }
@@ -79,4 +79,4 @@ fun GeminiWritingScreen(
             }
         }
     }
-}
+}*/

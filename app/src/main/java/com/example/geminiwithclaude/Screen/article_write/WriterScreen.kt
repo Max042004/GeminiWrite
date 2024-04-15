@@ -21,21 +21,19 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.geminiwithclaude.WRITING_RECORD_SCREEN
 
 
 @Composable
 fun WriterScreen(
         modifier: Modifier = Modifier,
-        outputText:String,
-        onRecordButtonClicked: () -> Unit,
-        //restartApp: (String) -> Unit,
-        viewModel: WriterScreenViewModel = hiltViewModel()
+        restartApp: (String) -> Unit,
+        viewModel: WriterScreenViewModel = hiltViewModel(),
+        openScreen: (String) -> Unit
     ) {
     val article = viewModel.writer.collectAsState()
 
-
-    //LaunchedEffect(Unit) { viewModel.initialize(restartApp) } 未來須用到再用
-
+    LaunchedEffect(Unit) { viewModel.initialize(restartApp) }
 
     Column(
             modifier = modifier
@@ -45,7 +43,7 @@ fun WriterScreen(
         ) {
             //Change the UIview
             Button(
-                onClick = { onRecordButtonClicked() },
+                onClick = { viewModel.onRecordClick { openScreen(WRITING_RECORD_SCREEN) } },
             ){
                 Text(text = "Record")
             }
@@ -94,7 +92,7 @@ fun WriterScreen(
                     .weight(weight = 1f, fill = false)
             ){
             Text(
-                text = outputText,
+                text = article.value.outputtext,
                 style = MaterialTheme.typography.bodyMedium
             )
         }

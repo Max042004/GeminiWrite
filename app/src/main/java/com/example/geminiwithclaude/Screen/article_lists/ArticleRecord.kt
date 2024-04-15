@@ -16,79 +16,69 @@ import androidx.compose.runtime.getValue
 import android.content.ContentValues.TAG
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
-import com.example.geminiwithclaude.Viewmodel.EnglishWritingViewModel.EnglishWritingData
 import kotlinx.coroutines.flow.StateFlow
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.geminiwithclaude.WRITING_SCREEN
+import com.example.geminiwithclaude.model.Writer
 
 
 @Composable
 fun ArticleWritingView(
-    onBacktoStartButtonClicked: () -> Unit,
-    onDocumentButtonClick:(String) -> Unit,
-    onDeleteButtonClicked: (List<String>) -> Unit,
-    articleDataFlow:  StateFlow<Map<String,List<EnglishWritingData>>>,
+    restartApp: (String) -> Unit,
+    openScreen: (String) -> Unit,
+    viewModel: ArticleRecordViewModel = hiltViewModel()
 ){
-    val articleDataMap by articleDataFlow.collectAsState(initial = emptyMap())
-    if(articleDataMap.isEmpty()){
-        Log.d(TAG,"is empty")
-    }
-    else{
-        Log.d(TAG,"not empty")
-    }
-    val articleDataNames = articleDataMap.keys.toMutableList()
-    if(articleDataNames.isNotEmpty()){Log.d(TAG,"not empty list")}
-    else{
-        Log.d(TAG,"empty list")
-    }
+    LaunchedEffect(Unit) { viewModel.initialize(restartApp) }
+
+    val articles by viewModel.articles.collectAsState(emptyList())
     val showDeleteDialog = remember { mutableStateOf(false) }
     val selectedDocuments = remember { mutableStateListOf<String>() }
+    var articlestitle = mutableListOf("")
+    articles.forEach{article->
+        articlestitle.add(article.title)
+    }
 
-    if (showDeleteDialog.value) {
+
+    /*if (showDeleteDialog.value) {
         DeleteDocumentDialog(
-            documents = articleDataNames,
+            documents = articlestitle,
             selectedDocuments = selectedDocuments,
             onDismissRequest = { showDeleteDialog.value = false },
             onDeleteConfirmed = { onDeleteButtonClicked(selectedDocuments)}
         )
-    }
+    }*/
 
     Column(modifier = Modifier) {
         Row(modifier = Modifier.fillMaxWidth()){
             Button(
-            onClick={onBacktoStartButtonClicked()}
+            onClick={viewModel.onBackClick { openScreen(WRITING_SCREEN) }}
         ){
             Text(
                 text = "Back"
             )
         }
-            Button(onClick = { showDeleteDialog.value = true}) {
+            /*Button(onClick = { showDeleteDialog.value = true}) {
                 Text(text = "Delete Documents")
-            }
+            }*/
         }
             Log.d(TAG,"UI complete")
     Spacer(modifier = Modifier.height(8.dp))
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            if (articleDataNames.isNotEmpty()) {
-                items(articleDataNames) { documentName ->
-                    Button(
-                        onClick = { onDocumentButtonClick(documentName) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                    ) {
-                        Text(text = documentName)
-                    }
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Log.d(TAG, "Button created")
+            if (articles.isNotEmpty()) {
+                items(articles, key = {it.id}) { articleItem ->
+                    ArticleItem(article = articleItem, onActionClick =  {viewModel.onArticleClick(openScreen, articleItem)} )
                 }
             } else {
                 item {
@@ -102,6 +92,29 @@ fun ArticleWritingView(
 }
 
 @Composable
+fun ArticleItem(
+    article: Writer,
+    onActionClick: (String) -> Unit
+) {
+    Card(
+        modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onActionClick(article.id) }
+        ) {
+            Text(
+                text = article.title,
+                modifier = Modifier.padding(12.dp, 12.dp, 12.dp, 12.dp),
+                //style = MaterialTheme.typography.bodyLarge
+            )
+        }
+    }
+}
+
+/*@Composable
 fun DeleteDocumentDialog(
     documents: List<String>,
     selectedDocuments: SnapshotStateList<String>,
@@ -151,5 +164,5 @@ fun DeleteDocumentDialog(
             }
         }
     )
-}
+}*/
 

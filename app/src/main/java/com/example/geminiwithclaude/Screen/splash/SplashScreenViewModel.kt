@@ -3,7 +3,7 @@ package com.example.geminiwithclaude.Screen.splash
 import com.example.geminiwithclaude.model.Service.AccountService
 import com.example.geminiwithclaude.SIGN_IN_SCREEN
 import com.example.geminiwithclaude.SPLASH_SCREEN
-import com.example.geminiwithclaude.WRITING_RECORD_SCREEN
+import com.example.geminiwithclaude.WRITING_SCREEN
 import com.example.geminiwithclaude.WriterAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -14,7 +14,7 @@ class SplashViewModel @Inject constructor(
 ) : WriterAppViewModel() {
 
     fun onAppStart(openAndPopUp: (String, String) -> Unit) {
-        if (accountService.hasUser()) openAndPopUp(WRITING_RECORD_SCREEN, SPLASH_SCREEN)
+        if (accountService.hasUser()) openAndPopUp(WRITING_SCREEN, SPLASH_SCREEN)
         else openAndPopUp(SIGN_IN_SCREEN, SPLASH_SCREEN)
     }
 }

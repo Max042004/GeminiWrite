@@ -21,6 +21,8 @@ import com.example.geminiwithclaude.Screen.article_lists.ArticleWritingView
 import com.example.geminiwithclaude.ui.theme.GeminiwithClaudeTheme
 import com.example.geminiwithclaude.Screen.sign_in.SignInScreen
 import com.example.geminiwithclaude.Screen.article_write.WriterScreen
+import com.example.geminiwithclaude.Screen.splash.SplashScreen
+
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,30 +53,25 @@ fun rememberAppState(navController: NavHostController = rememberNavController())
 fun NavGraphBuilder.notesGraph(appState: WriterAppState) {
     composable(WRITING_RECORD_SCREEN) {
         ArticleWritingView(
-            onBacktoStartButtonClicked = {navController.navigate(Geminiwritingscreen.Home.name)},
-            articleDataFlow = appviewModel.articleData,
-            onDocumentButtonClick = {documentName ->
-                navController.navigate("${Geminiwritingscreen.ArticleDocument.name}/$documentName")
-            },
-            onDeleteButtonClicked = {selectedDocuments ->
-                appviewModel.deleteDocuments(selectedDocuments)}
+            openScreen = { route -> appState.navigate(route) },
+            restartApp = { route -> appState.clearAndNavigate(route) },
+
         )
     }
 
     composable(
-        route = "$WRITER_ID={$WRITER_ID}",
+        route = "$WRITING_FULL_SCREEN$WRITER_ID_ARG",
         arguments = listOf(navArgument(WRITER_ID) { defaultValue = WRITER_DEFAULT_ID })
-    ) {
+    ){
+
+    }
+
+    composable(WRITING_SCREEN) {
         WriterScreen(
             modifier = Modifier
                 .fillMaxSize(),
-            inputText = appviewModel.InputText,
-            onValueChangeA = {appviewModel.updateinputtext(it)},
-            processInputText = {appviewModel.processInputText()},
-            outputText = uiState.outputText,
-            onRecordButtonClicked = {navController.navigate(Geminiwritingscreen.ArticleRecord.name)},
-            documentTitle = appviewModel.documenttitle,
-            onValueChangeD = {appviewModel.updatadocumenttitle(it)}
+            openScreen = { route -> appState.navigate(route) },
+            restartApp = { route -> appState.clearAndNavigate(route) }
         )
     }
 

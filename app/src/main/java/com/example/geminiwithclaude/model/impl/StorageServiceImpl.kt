@@ -52,6 +52,6 @@ class StorageServiceImpl @Inject constructor(private val auth: AccountService) :
 
     companion object {
         private const val USER_ID_FIELD = "userId"
-        private const val ARTICLES_COLLECTION = "articles"
+        private const val ARTICLES_COLLECTION = "englishWritingData"
     }
 }

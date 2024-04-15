@@ -15,13 +15,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.geminiwithclaude.Viewmodel.EnglishWritingViewModel.EnglishWritingData
 import kotlinx.coroutines.flow.StateFlow
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 
-@Composable
+/*@Composable
 fun ArticleDocumentScreen(
     modifier:Modifier = Modifier,
     documentName:String,
@@ -89,4 +88,4 @@ private fun ArticleItem(
             style = MaterialTheme.typography.bodyMedium
         )
     }
-}
+}*/

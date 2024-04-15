@@ -8,12 +8,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.geminiwithclaude.ui.theme.GeminiwithClaudeTheme
-import com.example.geminiwithclaude.Viewmodel.EnglishWritingViewModel
 import android.util.Log
 import androidx.activity.viewModels
 
 class MainActivity : ComponentActivity() {
-    private val viewModel: EnglishWritingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,19 +22,18 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    GeminiWritingScreen()
-
+                    WriterApp()
                 }
             }
         }
-        viewModel.fetchAndListenForArticleData()
+        //viewModel.fetchAndListenForArticleData()
         //viewModel.startListening()
 
     }
 
     override fun onStop() {
         super.onStop()
-        viewModel.stopListening()
+        //viewModel.stopListening()
         Log.d("Activity", "onStop called")
     }
 

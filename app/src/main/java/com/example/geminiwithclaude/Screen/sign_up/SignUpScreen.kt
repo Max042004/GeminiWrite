@@ -57,7 +57,7 @@ fun SignUpScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.mipmap.auth_image),//之後找一個ICON
+            painter = painterResource(id = R.drawable.auth_image),//之後找一個ICON
             contentDescription = "Auth image",
             modifier = modifier
                 .fillMaxWidth()
