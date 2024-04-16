@@ -10,9 +10,10 @@ import androidx.compose.ui.Modifier
 import com.example.geminiwithclaude.ui.theme.GeminiwithClaudeTheme
 import android.util.Log
 import androidx.activity.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

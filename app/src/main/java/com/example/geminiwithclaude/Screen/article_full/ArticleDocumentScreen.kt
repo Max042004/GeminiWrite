@@ -13,38 +13,45 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.StateFlow
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.geminiwithclaude.WRITING_RECORD_SCREEN
+import com.example.geminiwithclaude.WRITING_SCREEN
 
-/*@Composable
+@Composable
 fun ArticleDocumentScreen(
     modifier:Modifier = Modifier,
-    documentName:String,
-    articleDataFlow:  StateFlow<Map<String,List<EnglishWritingData>>>,
-    onBacktoStartButtonClicked:() -> Unit
+    restartApp: (String) -> Unit,
+    openScreen: (String) -> Unit,
+    viewModel: ArticleDocumentScreenViewModel = hiltViewModel()
     ){
-    val articleDataMap by articleDataFlow.collectAsState(initial = emptyMap())
-    val articlesForDocument = articleDataMap[documentName] ?: emptyList()
+
+    LaunchedEffect(Unit) { viewModel.initialize(restartApp) }
+
+    val articles by viewModel.articles.collectAsState(emptyList())
+
     Column {
         Button(
-            onClick={onBacktoStartButtonClicked()}
+            onClick={viewModel.onBackClick { openScreen(WRITING_RECORD_SCREEN) }}
         ){
             Text(
                 text = "Back"
             )
         }
-        if (articlesForDocument.isNotEmpty()) {
+        if (articles.isNotEmpty()) {
         LazyColumn(
             modifier = modifier.fillMaxSize()
         ) {
-            items(articlesForDocument) { article ->
+            items(articles) { article ->
                 ArticleItem(
-                    inputText = article.inputText,
-                    outputText = article.outputText
+                    inputText = article.inputtext,
+                    outputText = article.outputtext
                 )
             }
         }
@@ -88,4 +95,4 @@ private fun ArticleItem(
             style = MaterialTheme.typography.bodyMedium
         )
     }
-}*/
+}

@@ -48,7 +48,9 @@ class WriterScreenViewModel @Inject constructor(
             updateOutputText(writer.value.outputtext)
 
             // Add the data to Firestore
-            db.collection("englishWritingData").document(writer.value.title)
+            saveArticle()
+
+            /*db.collection("englishWritingData").document(writer.value.title)
                 .set(writer)
                 .addOnSuccessListener {writer.value.title
                     Log.d(
@@ -58,7 +60,17 @@ class WriterScreenViewModel @Inject constructor(
                 }
                 .addOnFailureListener { exception ->
                     Log.w(ContentValues.TAG, "Error adding document", exception)
-                }
+                }*/
+        }
+    }
+
+    private fun saveArticle() {
+        launchCatching {
+            if (writer.value.id == WRITER_DEFAULT_ID) {
+                storageService.createArticle(writer.value)
+            } else {
+                storageService.updateArticle(writer.value)
+            }
         }
     }
 
@@ -139,6 +151,6 @@ class WriterScreenViewModel @Inject constructor(
     }*/
 
     companion object {
-        private val DEFAULT_NOTE = Writer(WRITER_DEFAULT_ID, "My Note")
+        private val DEFAULT_NOTE = Writer(WRITER_DEFAULT_ID, "")
     }
 }

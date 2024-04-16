@@ -2,6 +2,8 @@ package com.example.geminiwithclaude.Screen.article_lists
 
 import com.example.geminiwithclaude.SPLASH_SCREEN
 import com.example.geminiwithclaude.WRITER_ID
+import com.example.geminiwithclaude.WRITER_ID_ARG
+import com.example.geminiwithclaude.WRITING_FULL_SCREEN
 import com.example.geminiwithclaude.WRITING_SCREEN
 import com.example.geminiwithclaude.WriterAppViewModel
 import com.example.geminiwithclaude.model.Service.AccountService
@@ -30,6 +32,6 @@ class ArticleRecordViewModel @Inject constructor(
     }
 
     fun onArticleClick(openScreen: (String) -> Unit, article: Writer) {
-        openScreen("$WRITING_SCREEN?$WRITER_ID=${article.id}")
+        openScreen("$WRITING_FULL_SCREEN$WRITER_ID_ARG=${article.id}")
     }
 }
