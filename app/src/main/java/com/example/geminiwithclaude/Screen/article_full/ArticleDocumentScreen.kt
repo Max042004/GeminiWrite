@@ -30,6 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.geminiwithclaude.WRITING_RECORD_SCREEN
 import com.example.geminiwithclaude.model.Writer
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.unit.sp
 
 
 @Composable
@@ -74,7 +75,8 @@ fun ArticleDocumentScreen(
 @Composable
 fun ArticleItem(
     inputText: String,
-    outputText : String
+    outputText : String,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = Modifier
@@ -83,22 +85,27 @@ fun ArticleItem(
             .verticalScroll(rememberScrollState())
     ) {
         Text(
-            text = "Output Text:",
-            style = MaterialTheme.typography.bodyMedium
+            text = "Input Text:",
+            style = MaterialTheme.typography.bodyMedium,
+            fontSize = 24.sp,
         )
         Text(
             text = inputText,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
+            fontSize = 16.sp
+
         )
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             text = "Output Text:",
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
+            fontSize = 24.sp
         )
         Text(
             text = outputText,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
+            fontSize = 16.sp
         )
     }
 }

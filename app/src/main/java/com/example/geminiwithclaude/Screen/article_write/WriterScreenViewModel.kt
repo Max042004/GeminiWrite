@@ -141,9 +141,6 @@ class WriterScreenViewModel @Inject constructor(
 
     //inputtextTextView = Writer.value.outputtext
 
-    fun getColor(context: Context): Int {
-        return ContextCompat.getColor(context, R.color.cursor_handle_color)
-    }
 
 
     /*fun updateNote(newText: String) {

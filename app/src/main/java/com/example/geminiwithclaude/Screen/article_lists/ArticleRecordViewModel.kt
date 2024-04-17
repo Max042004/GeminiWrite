@@ -32,6 +32,6 @@ class ArticleRecordViewModel @Inject constructor(
     }
 
     fun onArticleClick(openScreen: (String) -> Unit, article: Writer) {
-        openScreen("$WRITING_FULL_SCREEN$WRITER_ID=${article.id}")
+        openScreen("$WRITING_FULL_SCREEN?$WRITER_ID=${article.id}")
     }
 }
