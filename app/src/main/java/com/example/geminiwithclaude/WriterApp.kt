@@ -68,7 +68,8 @@ fun NavGraphBuilder.notesGraph(appState: WriterAppState) {
     ){
         ArticleDocumentScreen(
             restartApp = { route -> appState.clearAndNavigate(route) },
-            openScreen = { route -> appState.navigate(route) }
+            openScreen = { route -> appState.navigate(route) },
+            articleId = it.arguments?.getString(WRITER_ID) ?: WRITER_DEFAULT_ID
         )
     }
 

@@ -12,12 +12,9 @@ import android.util.Log
 import android.widget.TextView
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import com.jaeger.library.SelectableTextHelper
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private var mSelectableTextHelper: SelectableTextHelper? = null
-    private lateinit var tv_test: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -35,11 +32,6 @@ class MainActivity : ComponentActivity() {
         //viewModel.startListening()
         //setContentView(R.layout.activity_main)
         //val tv_test = findViewById(R.id.tv_test)
-        mSelectableTextHelper = SelectableTextHelper.Builder(tv_test)
-            .setSelectedColor(resources.getColor(R.color.selected_blue))
-            .setCursorHandleSizeInDp(20f)
-            .setCursorHandleColor(resources.getColor(R.color.cursor_handle_color))
-            .build()
 
     }
 

@@ -1,15 +1,23 @@
 package com.example.geminiwithclaude.Screen.article_write
 
 import android.content.ContentValues
+import android.content.Context
 import android.util.Log
+import android.widget.TextView
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.colorResource
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.viewModelScope
+import com.example.geminiwithclaude.R
 import com.example.geminiwithclaude.SPLASH_SCREEN
 import com.example.geminiwithclaude.WRITER_DEFAULT_ID
 import com.example.geminiwithclaude.WRITING_RECORD_SCREEN
 import com.example.geminiwithclaude.WriterAppViewModel
+import com.example.geminiwithclaude.databinding.ActivityMainBinding
 import com.example.geminiwithclaude.model.Service.AccountService
 import com.example.geminiwithclaude.model.Service.StorageService
 import com.example.geminiwithclaude.model.Writer
@@ -17,12 +25,14 @@ import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import com.google.rpc.context.AttributeContext.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 @HiltViewModel
 class WriterScreenViewModel @Inject constructor(
@@ -123,6 +133,16 @@ class WriterScreenViewModel @Inject constructor(
 
     fun onRecordClick(openScreen: (String) -> Unit) {
         openScreen("$WRITING_RECORD_SCREEN")
+    }
+
+    //val userName: LiveData
+
+    //binding.user = User("Test", "User")
+
+    //inputtextTextView = Writer.value.outputtext
+
+    fun getColor(context: Context): Int {
+        return ContextCompat.getColor(context, R.color.cursor_handle_color)
     }
 
 

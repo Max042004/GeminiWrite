@@ -92,7 +92,7 @@ fun ArticleWritingView(
 }
 
 @Composable
-fun ArticleItem(
+private fun ArticleItem(
     article: Writer,
     onActionClick: (String) -> Unit
 ) {

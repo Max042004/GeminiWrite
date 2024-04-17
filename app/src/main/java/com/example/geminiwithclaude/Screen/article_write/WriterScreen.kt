@@ -1,5 +1,8 @@
 package com.example.geminiwithclaude.Screen.article_write
 
+import android.widget.TextView
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -20,11 +24,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.databinding.DataBindingUtil.setContentView
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.geminiwithclaude.R
 import com.example.geminiwithclaude.WRITING_RECORD_SCREEN
 
 
 @Composable
+@OptIn(ExperimentalFoundationApi::class)
 fun WriterScreen(
         modifier: Modifier = Modifier,
         restartApp: (String) -> Unit,
@@ -91,10 +98,11 @@ fun WriterScreen(
                     .verticalScroll(rememberScrollState())
                     .weight(weight = 1f, fill = false)
             ){
-            Text(
+                SelectionContainer{
+                Text(
                 text = article.value.outputtext,
                 style = MaterialTheme.typography.bodyMedium
-            )
+            )}
         }
         }
 }

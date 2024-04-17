@@ -20,5 +20,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "GeminiwithClaude"
-include(":app",":library")
+include(":app")
  
