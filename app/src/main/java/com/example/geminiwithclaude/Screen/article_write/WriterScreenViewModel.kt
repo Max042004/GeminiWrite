@@ -135,6 +135,12 @@ class WriterScreenViewModel @Inject constructor(
         openScreen("$WRITING_RECORD_SCREEN")
     }
 
+    fun onSignOutClick() {
+        launchCatching {
+            accountService.signOut()
+        }
+    }
+
     //val userName: LiveData
 
     //binding.user = User("Test", "User")

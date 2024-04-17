@@ -5,7 +5,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowColumnScopeInstance.alignBy
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -33,42 +35,51 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
+import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.geminiwithclaude.R
+import com.example.geminiwithclaude.Screen.sign_in.SignInScreen
 import com.example.geminiwithclaude.WRITING_RECORD_SCREEN
+import com.example.geminiwithclaude.ui.theme.GeminiwithClaudeTheme
 
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun WriterScreen(
-        modifier: Modifier = Modifier,
         restartApp: (String) -> Unit,
-        viewModel: WriterScreenViewModel = hiltViewModel(),
-        openScreen: (String) -> Unit
+        openScreen: (String) -> Unit,
+        viewModel: WriterScreenViewModel = hiltViewModel()
     ) {
     val article = viewModel.writer.collectAsState()
 
     LaunchedEffect(Unit) { viewModel.initialize(restartApp) }
 
     Column(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
         ) {
             //Change the UIview
-            Button(
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ){
+                Button(
                 onClick = { viewModel.onRecordClick { openScreen(WRITING_RECORD_SCREEN) } },
-            ){
-                Text(text = "Record")
-            }
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-        )
+                ){
+                Text(text = stringResource(R.string.record))
+                }
+                Button(
+                onClick = {viewModel.onSignOutClick()}) {
+                Text(text = stringResource(R.string.sign_out))
+                }
+        }
             //documnet title
             TextField(value = article.value.title,
                 onValueChange = {viewModel.updatadocumenttitle(it)},
@@ -78,22 +89,22 @@ fun WriterScreen(
                 maxLines = 2,
                 shape = RoundedCornerShape(8.dp)
             )
-        Spacer(
+            Spacer(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
-        )
-        Column(
+            )
+            Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
-                .weight(weight = 1f, fill = false)
-        ){
+            ){
         //type input article
                 OutlinedTextField(
                 value = article.value.inputtext,
                 onValueChange = {viewModel.updateinputtext(it)},
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .wrapContentHeight(),
                 placeholder = { Text("Enter your article here") },
                 label = { Text("Article") },
@@ -112,17 +123,16 @@ fun WriterScreen(
                     style = MaterialTheme.typography.bodyMedium,
                     fontSize = 16.sp
                 )}
-        }
+            }
             Button(
                 onClick = {
                     // Call LLM API and update the output text
                     viewModel.processInputText()
                 },
                 modifier = Modifier
-                    .width(10.dp)
-                    .height(48.dp)
-                    .align(Alignment.Horizontal())
-
+                    .wrapContentWidth()
+                    .wrapContentHeight()
+                    .align(Alignment.CenterHorizontally)
             ) {
                 Text(
                     text = "Process Text",
@@ -130,6 +140,13 @@ fun WriterScreen(
                     color = MaterialTheme.colorScheme.onPrimary
                 )
             }
-            Spacer(modifier = Modifier.height(16.dp))
-        }
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun WritingPreview() {
+    GeminiwithClaudeTheme {
+        WriterScreen({},{})
+    }
 }

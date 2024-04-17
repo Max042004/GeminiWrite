@@ -4,6 +4,7 @@ import com.example.geminiwithclaude.model.Service.AccountService
 import com.example.geminiwithclaude.SIGN_IN_SCREEN
 import com.example.geminiwithclaude.SIGN_UP_SCREEN
 import com.example.geminiwithclaude.WRITING_RECORD_SCREEN
+import com.example.geminiwithclaude.WRITING_SCREEN
 import com.example.geminiwithclaude.WriterAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,7 +28,14 @@ class SignInViewModel @Inject constructor(
     fun onSignInClick(openAndPopUp: (String, String) -> Unit) {
         launchCatching {
             accountService.signIn(email.value, password.value)
-            openAndPopUp(WRITING_RECORD_SCREEN, SIGN_IN_SCREEN)
+            openAndPopUp(WRITING_SCREEN, SIGN_IN_SCREEN)
+        }
+    }
+
+    fun onGoogleSignInClick(openAndPopUp: (String, String) -> Unit) {
+        launchCatching {
+            accountService.signIn(email.value, password.value)
+            openAndPopUp(WRITING_SCREEN, SIGN_IN_SCREEN)
         }
     }
 

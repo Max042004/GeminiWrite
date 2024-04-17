@@ -75,8 +75,6 @@ fun NavGraphBuilder.notesGraph(appState: WriterAppState) {
 
     composable(WRITING_SCREEN) {
         WriterScreen(
-            modifier = Modifier
-                .fillMaxSize(),
             openScreen = { route -> appState.navigate(route) },
             restartApp = { route -> appState.clearAndNavigate(route) }
         )
