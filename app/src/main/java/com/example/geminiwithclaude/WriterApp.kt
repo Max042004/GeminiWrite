@@ -81,7 +81,10 @@ fun NavGraphBuilder.notesGraph(appState: WriterAppState) {
     }
 
     composable(SIGN_IN_SCREEN) {
-        SignInScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) })
+        SignInScreen(
+            openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp)
+            }
+        )
     }
 
     composable(SIGN_UP_SCREEN) {

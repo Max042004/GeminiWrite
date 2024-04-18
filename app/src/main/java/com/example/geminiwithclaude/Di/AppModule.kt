@@ -27,8 +27,8 @@ class AuthModule {
     @Singleton
     fun provideFirebaseAuth() = FirebaseAuth.getInstance()
 
-    //@Provides
-    //fun provideAuthRepository(impl: AccountServiceImpl): AccountService = impl
+    @Provides
+    fun provideAuthRepository(impl: AccountServiceImpl): AccountService = impl
 
     @Provides
     fun provideOneTapClient(

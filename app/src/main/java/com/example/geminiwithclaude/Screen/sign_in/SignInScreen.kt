@@ -1,6 +1,8 @@
 package com.example.geminiwithclaude.Screen.sign_in
 
 import android.app.Activity
+import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
@@ -58,7 +60,7 @@ import com.google.android.gms.common.api.ApiException
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun SignInScreen(
-    openAndPopUp: (String, String) -> Unit,
+    openAndPopUp: (String,String) -> Unit,
     viewModel: SignInViewModel = hiltViewModel(),
     loginState: MutableState<Boolean>? = null
 ) {
@@ -71,7 +73,7 @@ fun SignInScreen(
             try {
                 // 2.
                 val credentials = viewModel.oneTapClient.getSignInCredentialFromIntent(result.data)
-                viewModel.onGoogleSignInClick(credentials)
+                viewModel.onGoogleSignInClick(credentials, openAndPopUp)
             }
             catch (e: ApiException) {
                 Log.e("LoginScreen:Launcher","Login One-tap $e")
@@ -79,6 +81,7 @@ fun SignInScreen(
         }
         else if (result.resultCode == Activity.RESULT_CANCELED){
             Log.e("LoginScreen:Launcher","OneTapClient Canceled")
+
         }
     }
 
@@ -153,7 +156,7 @@ fun SignInScreen(
             .fillMaxWidth()
             .padding(12.dp))
         Button(
-            onClick = {viewModel.oneTapSignIn(openAndPopUp)},
+            onClick = {viewModel.oneTapSignIn()},
             modifier = Modifier.wrapContentWidth(),
 
         ){
@@ -163,6 +166,18 @@ fun SignInScreen(
                 modifier = Modifier.padding(0.dp, 6.dp)
             )
         }
+        /*Button(
+            onClick = {viewModel.onGoogleSignInClick(openAndPopUp)},
+            modifier = Modifier.wrapContentWidth(),
+
+            ){
+            Text(
+                text = stringResource(R.string.sign_in_google),
+                fontSize = 16.sp,
+                modifier = Modifier.padding(0.dp, 6.dp)
+            )
+        }*/
+        Spacer(modifier = Modifier.padding(4.dp))
 
         Button(
             onClick = { viewModel.onSignInClick(openAndPopUp) },
@@ -236,6 +251,6 @@ fun SignInScreen(
 @Composable
 fun AuthPreview() {
     GeminiwithClaudeTheme {
-        SignInScreen({ _, _ -> })
+        //SignInScreen({ "";"",_,-> })
     }
 }

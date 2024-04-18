@@ -1,6 +1,7 @@
 package com.example.geminiwithclaude.model.impl
 
 import android.app.Application
+import android.content.ContentValues
 import android.content.Context
 import android.provider.ContactsContract
 import android.util.Log
@@ -26,6 +27,7 @@ import com.example.geminiwithclaude.model.DeleteAccountResponse
 import com.example.geminiwithclaude.model.FirebaseSignInResponse
 import com.example.geminiwithclaude.model.OneTapSignInResponse
 import com.example.geminiwithclaude.model.Response
+import com.example.geminiwithclaude.model.SignOutResponse
 import com.example.geminiwithclaude.model.isWithinPast
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.auth.api.identity.SignInCredential
@@ -66,7 +68,7 @@ class AccountServiceImpl @Inject constructor(
     override suspend fun onTapSignIn(): OneTapSignInResponse {
         return try {
             // 1. Start the sign-in process by calling beginSignIn(beginSignInRequest:)
-            // on the SignInClient object and pass the signInRequest.
+            // on the SignInClient(it is api) object and pass the signInRequest(also from api).
             val signInResult = oneTapClient.beginSignIn(signInRequest).await()
             Response.Success(signInResult)
         } catch (e: Exception) {
@@ -80,6 +82,22 @@ class AccountServiceImpl @Inject constructor(
                 Response.Failure(e)
             }
         }
+    }
+
+    override suspend fun verifyGoogleSignIn(): Boolean {
+        auth.currentUser?.let { user ->
+            if (user.providerData.map { it.providerId }.contains("google.com")) {
+                return try {
+                    googleSignInClient.silentSignIn().await()
+                    true
+                } catch (e: ApiException) {
+                    Log.e(TAG, "Error: ${e.message}")
+                    signOut()
+                    false
+                }
+            }
+        }
+        return false
     }
 
     override suspend fun signInWithGoogle(credential: SignInCredential): FirebaseSignInResponse {
@@ -163,9 +181,15 @@ class AccountServiceImpl @Inject constructor(
         Firebase.auth.createUserWithEmailAndPassword(email, password).await()
     }
 
-    override suspend fun signOut() {
-        Firebase.auth.signOut()
-        //oneTapClient.signOut().await() 確認上面那一行是否也能sign out google帳戶
+    override suspend fun signOut(): SignOutResponse {
+        return try {
+            oneTapClient.signOut().await()
+            auth.signOut()
+            Response.Success(true)
+        }
+        catch (e: java.lang.Exception) {
+            Response.Failure(e)
+        }
     }
 
     override suspend fun deleteAccount() {

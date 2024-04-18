@@ -141,6 +141,21 @@ fun SignUpScreen(
                 .padding(16.dp, 0.dp)
         ) {
             Text(
+                text = stringResource(R.string.sign_up_google),
+                fontSize = 16.sp,
+                modifier = modifier.padding(0.dp, 6.dp)
+            )
+        }
+        Spacer(modifier = modifier.padding(4.dp))
+
+
+        Button(
+            onClick = { viewModel.onSignUpClick(openAndPopUp) },
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(16.dp, 0.dp)
+        ) {
+            Text(
                 text = stringResource(R.string.sign_up),
                 fontSize = 16.sp,
                 modifier = modifier.padding(0.dp, 6.dp)

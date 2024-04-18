@@ -1,5 +1,7 @@
 package com.example.geminiwithclaude.Screen.sign_in
 
+import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.geminiwithclaude.model.Service.AccountService
 import com.example.geminiwithclaude.SIGN_IN_SCREEN
@@ -14,6 +16,7 @@ import com.google.android.gms.auth.api.identity.SignInCredential
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,7 +37,7 @@ class SignInViewModel @Inject constructor(
         password.value = newPassword
     }
 
-    fun onSignInClick(openAndPopUp: (String, String) -> Unit) {
+    fun onSignInClick(openAndPopUp: (String,String) -> Unit) {
         launchCatching {
             accountService.signIn(email.value, password.value)
             openAndPopUp(WRITING_SCREEN, SIGN_IN_SCREEN)
@@ -42,18 +45,34 @@ class SignInViewModel @Inject constructor(
     }
 
 
-    fun oneTapSignIn(openAndPopUp: (String, String) -> Unit) = CoroutineScope(Dispatchers.IO).launch {
+    fun oneTapSignIn() = CoroutineScope(Dispatchers.IO).launch {
         DataProvider.oneTapSignInResponse = Response.Loading
         DataProvider.oneTapSignInResponse = accountService.onTapSignIn()
-        openAndPopUp(SIGN_UP_SCREEN, SIGN_IN_SCREEN)
     }
 
-    fun onGoogleSignInClick(credentials: SignInCredential) = CoroutineScope(Dispatchers.IO).launch {
+    fun onGoogleSignInClick(credentials: SignInCredential,openAndPopUp: (String,String) -> Unit) = CoroutineScope(Dispatchers.IO).launch {
         DataProvider.googleSignInResponse = Response.Loading
         DataProvider.googleSignInResponse = accountService.signInWithGoogle(credentials)
+        val signInResponse = DataProvider.googleSignInResponse
+
+            when (signInResponse) {
+            is Response.Success -> {
+                Log.d(TAG, "log1")
+                delay(500)
+                openAndPopUp(WRITING_SCREEN, SIGN_IN_SCREEN)
+                Log.d(TAG, "log2")
+            }
+            is Response.Failure -> {
+                // Handle sign-in failure
+                Log.e(TAG, "Sign-in failed: ${signInResponse.e}")
+            }
+                else ->{
+                        Log.d(TAG,"log3")
+                    }
+        }
     }
 
-    fun onSignUpClick(openAndPopUp: (String, String) -> Unit) {
+    fun onSignUpClick(openAndPopUp: (String,String) -> Unit) {
         openAndPopUp(SIGN_UP_SCREEN, SIGN_IN_SCREEN)
     }
 
@@ -67,7 +86,7 @@ class SignInViewModel @Inject constructor(
             else {
                 // If failed initiate oneTap sign in flow
                 // deleteAccount(googleIdToken:) will be called from oneTap result callback
-                oneTapSignIn(openAndPopUp = {WRITING_SCREEN,SIGN_IN_SCREEN-> Unit})
+                oneTapSignIn()
                 Log.i("deleteAccount","OneTapSignIn")
             }
         } else {

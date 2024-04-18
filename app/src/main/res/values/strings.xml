@@ -12,6 +12,7 @@
     <string name="confirm_password">Confirm password</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_in_google">Sign In With Google</string>
+    <string name="sign_up_google">Sign Up With Google</string>
     <string name="sign_up">Sign up</string>
     <string name="sign_up_description">Don\'t have an account? Click here to Sign Up!</string>
     <string name="sign_out">Sign out</string>
