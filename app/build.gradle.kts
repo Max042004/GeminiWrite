@@ -120,5 +120,8 @@ dependencies {
     implementation("androidx.startup:startup-runtime:1.1.1")
     implementation("com.google.firebase:firebase-auth:22.3.1")
     implementation ("com.firebaseui:firebase-ui-auth:7.2.0")
+    
+    implementation ("com.github.ankidroid:Anki-Android:api-v1.1.0")
+
 
 }
