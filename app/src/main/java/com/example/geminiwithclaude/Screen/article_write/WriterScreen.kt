@@ -21,11 +21,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -33,6 +35,8 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.TopCenter
@@ -56,6 +60,7 @@ fun WriterScreen(
         viewModel: WriterScreenViewModel = hiltViewModel()
     ) {
     val article = viewModel.writer.collectAsState()
+    val openAlertDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) { viewModel.initialize(restartApp) }
 
@@ -76,9 +81,37 @@ fun WriterScreen(
                 Text(text = stringResource(R.string.record))
                 }
                 Button(
-                onClick = {viewModel.onSignOutClick()}) {
+                onClick = { openAlertDialog.value = true}){
                 Text(text = stringResource(R.string.sign_out))
                 }
+            when {
+                openAlertDialog.value ->{
+                    AlertDialog(title = {
+                    Text(text = stringResource(R.string.sign_out_title))
+                },
+                    text = {
+                        Text(text = stringResource(R.string.sign_out_description))
+                    },
+                    onDismissRequest = { openAlertDialog.value = false },
+                    confirmButton = {
+                        TextButton(
+                            onClick = { viewModel.onSignOutClick() }
+                        ) { Text("Confirm") }
+                    },
+                    dismissButton = {
+                        TextButton(
+                            onClick = {
+                                openAlertDialog.value = false
+                            }
+                        ) {
+                            Text("Dismiss")
+                        }
+                    }
+                )
+                }
+
+
+        }
         }
             //documnet title
             TextField(value = article.value.title,
@@ -142,6 +175,7 @@ fun WriterScreen(
             }
     }
 }
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
