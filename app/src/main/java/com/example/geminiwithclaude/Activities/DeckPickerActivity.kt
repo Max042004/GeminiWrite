@@ -9,7 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 
-class DeckPickerActivity {
+/*class DeckPickerActivity {
     /** Called when the activity is first created.  */
     @Throws(SQLException::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -135,4 +135,4 @@ class DeckPickerActivity {
             }
         }
     }
-}
+}*/

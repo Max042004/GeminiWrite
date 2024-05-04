@@ -13,15 +13,15 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import com.example.geminiwithclaude.BottomNavBar.BottomNavItem
-import com.example.geminiwithclaude.BottomNavBar.BottomNavigationBar
+//import com.example.geminiwithclaude.BottomNavBar.BottomNavItem
+//import com.example.geminiwithclaude.BottomNavBar.BottomNavigationBar
 import com.example.geminiwithclaude.R
 import com.example.geminiwithclaude.Screen.article_write.WriterScreen
 import com.example.geminiwithclaude.WriterApp
 import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
+/*@AndroidEntryPoint
 class WriteArticleActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +70,7 @@ class CreateFlashcardsActivity : ComponentActivity() {
         }
     }
 }
-/*
+
 setContent {
             GeminiwithClaudeTheme {
                 // A surface container using the 'background' color from the theme

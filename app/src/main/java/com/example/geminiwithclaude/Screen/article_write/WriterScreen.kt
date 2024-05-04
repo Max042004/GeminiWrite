@@ -168,7 +168,7 @@ fun WriterScreen(
                     .align(Alignment.CenterHorizontally)
             ) {
                 Text(
-                    text = "Process Text",
+                    text = "AI Process Text",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimary
                 )

@@ -5,13 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.viewinterop.AndroidView
-import com.example.geminiwithclaude.Activities.CreateFlashcardsActivity
-import com.example.geminiwithclaude.Activities.ReadArticlesActivity
-import com.example.geminiwithclaude.Activities.WriteArticleActivity
+//import com.example.geminiwithclaude.Activities.CreateFlashcardsActivity
+//import com.example.geminiwithclaude.Activities.ReadArticlesActivity
+//import com.example.geminiwithclaude.Activities.WriteArticleActivity
 import com.example.geminiwithclaude.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-sealed class BottomNavItem(val itemId: Int, val label: String, val icon: Int) {
+/*sealed class BottomNavItem(val itemId: Int, val label: String, val icon: Int) {
     object Write : BottomNavItem(R.id.navigation_write, "Write", R.drawable.ic_home_black)
     object Cards : BottomNavItem(R.id.navigation_cards, "Cards", R.drawable.ic_notifications_black)
     object Articles : BottomNavItem(R.id.navigation_articles, "Articles", R.drawable.ic_dashboard_black)
@@ -46,4 +46,4 @@ fun BottomNavigationBar(
             }
         }
     )
-}
+}*/

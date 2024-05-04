@@ -13,9 +13,9 @@ import com.example.geminiwithclaude.R
 import com.example.geminiwithclaude.ui.theme.GeminiwithClaudeTheme
 import com.google.android.material.navigation.NavigationBarView
 import androidx.compose.ui.Modifier
-import com.example.geminiwithclaude.BottomNavBar.BottomNavigationBar
+//import com.example.geminiwithclaude.BottomNavBar.BottomNavigationBar
 
-class ReadArticlesActivity : ComponentActivity() {
+/*class ReadArticlesActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -36,4 +36,4 @@ class ReadArticlesActivity : ComponentActivity() {
             }
         }
     }
-}
+}*/

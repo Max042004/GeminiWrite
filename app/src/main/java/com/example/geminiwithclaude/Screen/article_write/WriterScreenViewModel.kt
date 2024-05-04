@@ -17,7 +17,7 @@ import com.example.geminiwithclaude.SPLASH_SCREEN
 import com.example.geminiwithclaude.WRITER_DEFAULT_ID
 import com.example.geminiwithclaude.WRITING_RECORD_SCREEN
 import com.example.geminiwithclaude.WriterAppViewModel
-import com.example.geminiwithclaude.databinding.ActivityMainBinding
+//import com.example.geminiwithclaude.databinding.ActivityMainBinding
 import com.example.geminiwithclaude.model.Service.AccountService
 import com.example.geminiwithclaude.model.Service.StorageService
 import com.example.geminiwithclaude.model.Writer

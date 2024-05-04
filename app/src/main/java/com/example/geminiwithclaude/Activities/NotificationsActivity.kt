@@ -10,13 +10,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.geminiwithclaude.BottomNavBar.BottomNavItem
-import com.example.geminiwithclaude.BottomNavBar.BottomNavigationBar
+//import com.example.geminiwithclaude.BottomNavBar.BottomNavItem
+//import com.example.geminiwithclaude.BottomNavBar.BottomNavigationBar
 import com.example.geminiwithclaude.R
 import com.example.geminiwithclaude.ui.theme.GeminiwithClaudeTheme
 import com.google.android.material.navigation.NavigationBarView
 
-class CreateFlashcardsActivity : ComponentActivity() {
+/*class CreateFlashcardsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -37,4 +37,4 @@ class CreateFlashcardsActivity : ComponentActivity() {
             }
         }
     }
-}
+}*/
