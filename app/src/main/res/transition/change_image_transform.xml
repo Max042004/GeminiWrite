@@ -1,0 +1,4 @@
+<transitionSet xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ResourceName">
+    <changeImageTransform/>
+</transitionSet>
